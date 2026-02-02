@@ -3,791 +3,689 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CRUSH AX MODS – Admin Panel</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
+    <title>CRUSHAX PANEL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- CSS VARIABLES --- */
+        /* --- CORE --- */
         :root {
-            --bg: #050508; --card: rgba(20, 20, 25, 0.6); --nav: rgba(25, 25, 35, 0.8); 
-            --accent: #00e5ff; --text: #ffffff; --muted: #94a3b8; 
-            --border: rgba(255, 255, 255, 0.08); 
-            --green: #00ff9d; --red: #ff0055;
-            --glass: blur(24px) saturate(180%);
-            --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            --bg-grad: linear-gradient(135deg, #050508, #0a0a12);
+            --card: rgba(14, 14, 20, 0.6);
+            --nav: rgba(22, 22, 33, 0.85);
+            --accent: #00e5ff; 
+            --accent-dim: rgba(0, 229, 255, 0.1);
+            --text: #ffffff; --muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --green: #00ff9d; --red: #ff0055; --warn: #f59e0b;
+            --glass: blur(20px) saturate(180%);
+            --shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
         }
 
-        /* --- THEMES --- */
-        [data-theme="cyberpunk"] { --bg:#050508; --accent:#00e5ff; }
-        [data-theme="matrix"] { --bg:#000000; --card:rgba(0, 20, 0, 0.8); --nav:rgba(0, 30, 0, 0.9); --accent:#00ff00; --green:#00ff00; --red:#008800; }
-        [data-theme="blood"] { --bg:#0f0202; --card:rgba(30, 5, 5, 0.6); --nav:rgba(40, 5, 5, 0.8); --accent:#ff0033; --green:#ff3333; --red:#ff0033; }
-        [data-theme="gold"] { --bg:#0a0800; --card:rgba(30, 25, 10, 0.6); --nav:rgba(40, 35, 10, 0.8); --accent:#ffd700; --green:#ffeb3b; --red:#ff4500; color:#fff; }
-        [data-theme="ice"] { --bg:#00080a; --card:rgba(10, 30, 40, 0.6); --nav:rgba(10, 40, 50, 0.8); --accent:#00ffff; --green:#a0ffff; --red:#ff0055; }
-        [data-theme="nature"] { --bg:#051005; --card:rgba(10, 30, 10, 0.6); --nav:rgba(15, 40, 15, 0.8); --accent:#00ff44; --green:#55ff55; --red:#ff5555; }
-        
-        /* Anime Themes */
-        [data-theme="itachi"] { --bg:#050000; --card:rgba(20, 0, 0, 0.7); --nav:rgba(30, 0, 0, 0.9); --accent:#ff0000; }
-        [data-theme="gojo"] { --bg:#0a0014; --card:rgba(20, 0, 40, 0.6); --nav:rgba(30, 10, 50, 0.8); --accent:#c400ff; --green:#d633ff; --red:#ff0066; }
-        [data-theme="luffy"] { --bg:#1a1a1a; --card:rgba(40, 40, 40, 0.6); --nav:rgba(50, 50, 50, 0.8); --accent:#ffffff; --green:#dddddd; --red:#ff3333; }
-        [data-theme="demon"] { --bg:#00080a; --card:rgba(0, 20, 30, 0.6); --nav:rgba(0, 30, 40, 0.8); --accent:#00ffcc; }
+        /* --- THEMES (CSS Variables + Animation Styles) --- */
+        [data-theme="Cyberpunk"] {
+            --bg-grad: radial-gradient(circle at top, #1a0b2e, #000000);
+            --accent: #00e5ff; --accent-dim: rgba(0, 229, 255, 0.2);
+            --card: rgba(10, 10, 25, 0.7);
+        }
+        [data-theme="Matrix"] {
+            --bg-grad: #000000;
+            --accent: #00ff41; --accent-dim: rgba(0, 255, 65, 0.15);
+            --text: #e0ffe0; --muted: #4a804a;
+            --card: rgba(0, 20, 0, 0.85);
+            --border: rgba(0, 255, 65, 0.3);
+        }
+        [data-theme="Blood"] {
+            --bg-grad: linear-gradient(to bottom, #1a0000, #000000);
+            --accent: #ff0000; --accent-dim: rgba(255, 0, 0, 0.2);
+            --text: #ffebeb; --muted: #804040;
+            --card: rgba(40, 0, 0, 0.6);
+            --green: #ff0000; 
+        }
+        [data-theme="Ocean"] {
+            --bg-grad: linear-gradient(to top, #000810, #001a33);
+            --accent: #00ccff; --accent-dim: rgba(0, 204, 255, 0.2);
+            --card: rgba(0, 20, 40, 0.6);
+        }
+        [data-theme="Gold"] {
+            --bg-grad: radial-gradient(circle at center, #1a1500, #000000);
+            --accent: #ffd700; --accent-dim: rgba(255, 215, 0, 0.15);
+            --text: #fffbe6; --muted: #998844;
+            --card: rgba(20, 18, 0, 0.7);
+        }
+        [data-theme="Violet"] {
+            --bg-grad: linear-gradient(135deg, #0f001a, #1a0033);
+            --accent: #d400ff; --accent-dim: rgba(212, 0, 255, 0.2);
+            --text: #f3e6ff;
+        }
 
-        /* --- GLOBAL RESETS --- */
-        * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; user-select: none; }
-        body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 110px; overflow-x: hidden; transition: background 0.4s ease; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; user-select: none; }
+        body { margin: 0; padding: 0; font-family: 'Outfit', sans-serif; background: var(--bg-grad); color: var(--text); min-height: 100vh; padding-bottom: 120px; overflow-x: hidden; transition: background 0.5s ease, color 0.5s ease; }
         
-        #bgCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none; }
-        #themeOverlay { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100vw; height: 100vh; z-index: -1; pointer-events: none; display: flex; align-items: center; justify-content: center; opacity: 0.3; overflow: hidden; }
+        #bgCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
 
         /* --- HEADER --- */
-        header { 
-            position: sticky; top: 0; z-index: 50; 
-            background: rgba(0,0,0,0.2); backdrop-filter: var(--glass);
-            border-bottom: 1px solid var(--border); padding: 15px 20px;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .brand { font-weight: 800; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; letter-spacing: -0.5px; }
-        .brand i { color: var(--accent); filter: drop-shadow(0 0 8px var(--accent)); transition: 0.3s; }
-        .icon-btn { 
-            width: 38px; height: 38px; border-radius: 12px; 
-            background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--muted);
-            display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s;
-        }
-        .icon-btn:active { transform: scale(0.95); background: var(--accent); color: #000; }
+        header { position: sticky; top: 0; z-index: 50; background: rgba(0,0,0,0.4); backdrop-filter: var(--glass); border-bottom: 1px solid var(--border); padding: 15px 24px; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; }
+        .brand { font-weight: 800; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; letter-spacing: -0.5px; text-shadow: 0 0 15px var(--accent-dim); }
+        .brand i { color: var(--accent); filter: drop-shadow(0 0 8px var(--accent)); }
+        
+        .icon-btn { width: 42px; height: 42px; border-radius: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--text); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; }
+        .icon-btn:active { transform: scale(0.9); background: var(--accent); color: #000; box-shadow: 0 0 15px var(--accent); }
 
         /* --- LAYOUT --- */
-        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .container { max-width: 650px; margin: 0 auto; padding: 20px; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
         .hidden { display: none !important; }
-        .fade-in { animation: fadeIn 0.4s ease forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* --- CONTROLS --- */
-        .controls { display: flex; gap: 10px; margin-bottom: 15px; }
-        .search { position: relative; flex: 1; }
-        .search i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 0.8rem; }
-        .input-std { 
-            width: 100%; background: rgba(0,0,0,0.2); border: 1px solid var(--border); 
-            padding: 12px 12px 12px 40px; color: var(--text); border-radius: 12px; 
-            font-family: 'Inter', sans-serif; font-size: 0.9rem; backdrop-filter: blur(5px); transition: 0.3s;
-        }
-        .input-std:focus { border-color: var(--accent); background: rgba(0,0,0,0.3); box-shadow: 0 0 20px rgba(0,0,0,0.2); }
-        .btn-main { 
-            background: var(--accent); color: #000; border: none; padding: 0 20px; 
-            border-radius: 12px; font-weight: 700; cursor: pointer; 
-            display: flex; align-items: center; gap: 8px; white-space: nowrap; box-shadow: var(--shadow); transition: 0.2s;
-        }
-        
-        /* --- CHIPS --- */
-        .chips { display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
-        .chip { padding: 8px 18px; border-radius: 20px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); font-size: 0.75rem; font-weight: 600; color: var(--muted); cursor: pointer; transition: 0.2s; white-space: nowrap; }
-        .chip.active { background: var(--accent); color: #000; border-color: var(--accent); box-shadow: 0 0 15px var(--accent); }
+        .controls { display: flex; gap: 12px; margin-bottom: 25px; align-items: center; }
+        .search-box { position: relative; flex: 1; }
+        .search-box i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+        .input-glass { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border); padding: 14px 14px 14px 44px; color: var(--text); border-radius: 14px; font-family: 'Outfit', sans-serif; font-size: 0.95rem; transition: 0.3s; backdrop-filter: blur(5px); }
+        .input-glass:focus { border-color: var(--accent); box-shadow: 0 0 20px var(--accent-dim); background: rgba(0,0,0,0.5); }
+
+        .btn-gradient { background: linear-gradient(135deg, var(--accent), var(--green)); color: #000; border: none; padding: 0 24px; height: 48px; border-radius: 14px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 8px; white-space: nowrap; box-shadow: 0 5px 20px -5px var(--accent); transition: 0.3s; letter-spacing: 0.5px; }
+        .btn-gradient:active { transform: scale(0.95); box-shadow: 0 2px 10px -2px var(--accent); }
 
         /* --- CARDS --- */
-        .item-card { 
-            background: var(--card); border: 1px solid var(--border); 
-            border-radius: 24px; padding: 20px; margin-bottom: 12px; 
-            display: flex; flex-direction: column; gap: 12px;
-            backdrop-filter: var(--glass); 
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
-            position: relative; overflow: hidden;
-        }
-        .item-card.active-card::before { content:''; position: absolute; top:0; left:0; width:4px; height:100%; background: var(--green); box-shadow: 2px 0 15px var(--green); }
-        .item-card.banned-card::before { content:''; position: absolute; top:0; left:0; width:4px; height:100%; background: var(--red); box-shadow: 2px 0 15px var(--red); }
-        
-        .row-top { display: flex; justify-content: space-between; align-items: center; padding-left: 8px; }
-        .mono-text { font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--text); font-size: 0.95rem; word-break: break-all; opacity: 0.95; }
-        .meta-row { border-top: 1px solid var(--border); padding: 12px 0 0 8px; display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--muted); align-items: center; }
-        .badge { font-weight: 800; text-transform: uppercase; padding: 4px 10px; border-radius: 8px; font-size: 0.6rem; letter-spacing: 0.5px; display: inline-flex; align-items: center; gap: 5px; }
-        .badge.active { background: rgba(0, 255, 157, 0.1); color: var(--green); border: 1px solid rgba(0, 255, 157, 0.2); }
-        .badge.banned { background: rgba(255, 0, 85, 0.1); color: var(--red); border: 1px solid rgba(255, 0, 85, 0.2); }
-        
-        .device-info { display: flex; align-items: center; gap: 15px; }
-        .device-icon { width: 42px; height: 42px; border-radius: 14px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--muted); border: 1px solid var(--border); }
-        .active-card .device-icon { color: var(--green); border-color: rgba(0,255,157,0.3); box-shadow: 0 0 15px rgba(0,255,157,0.1); }
-        .banned-card .device-icon { color: var(--red); border-color: rgba(255,0,85,0.3); box-shadow: 0 0 15px rgba(255,0,85,0.1); }
-        
-        .info-pill { 
-            background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 8px; border: 1px solid var(--border); 
-            display: inline-flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; color: var(--muted);
-            font-size: 0.7rem; margin-top: 5px;
-        }
+        .glass-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 20px; margin-bottom: 15px; position: relative; backdrop-filter: blur(25px); transition: 0.3s; display: flex; flex-direction: column; gap: 12px; box-shadow: var(--shadow); }
+        .glass-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 10px 30px var(--accent-dim); }
 
-        /* --- SWITCH --- */
-        .switch { position: relative; width: 50px; height: 28px; }
+        .key-row-top { display: flex; justify-content: space-between; align-items: center; }
+        .key-title { font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #fff; font-size: 1.05rem; word-break: break-all; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.2s; }
+        .key-title i { font-size: 0.9rem; opacity: 0.4; transition: 0.2s; }
+        .key-title:hover { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
+        .key-title:hover i { opacity: 1; color: var(--accent); }
+        
+        .badge { padding: 5px 12px; border-radius: 8px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+        .badge.dur { background: rgba(0, 229, 255, 0.1); color: var(--accent); border: 1px solid rgba(0, 229, 255, 0.3); }
+        .badge.fix { background: rgba(245, 158, 11, 0.1); color: var(--warn); border: 1px solid rgba(245, 158, 11, 0.3); }
+        .badge.life { background: rgba(0, 255, 157, 0.1); color: var(--green); border: 1px solid rgba(0, 255, 157, 0.3); }
+
+        .key-details { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 0.8rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: 12px; margin-top: 5px; }
+        .detail-item { display: flex; align-items: center; gap: 8px; }
+        .detail-item i { color: var(--accent); filter: drop-shadow(0 0 5px var(--accent)); }
+
+        .key-actions-row { display: flex; justify-content: flex-end; gap: 10px; margin-top: 5px; }
+        .btn-mini { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid transparent; transition: 0.2s; font-size: 0.95rem; }
+        .btn-view { background: rgba(255,255,255,0.05); color: var(--muted); border-color: var(--border); }
+        .btn-view:hover { background: var(--accent); color: #000; border-color: var(--accent); box-shadow: 0 0 15px var(--accent); }
+        .btn-edit { background: rgba(245, 158, 11, 0.1); color: var(--warn); border-color: rgba(245, 158, 11, 0.3); }
+        .btn-edit:hover { background: var(--warn); color: #000; border-color: var(--warn); box-shadow: 0 0 15px var(--warn); }
+        .btn-del { background: rgba(255,0,85,0.1); color: var(--red); border-color: rgba(255,0,85,0.3); }
+        .btn-del:hover { background: var(--red); color: #fff; border-color: var(--red); box-shadow: 0 0 15px var(--red); }
+
+        /* --- CONFIG FORM --- */
+        .cfg-section { margin-bottom: 35px; }
+        .cfg-head { color: var(--accent); font-weight: 800; font-size: 0.85rem; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; justify-content: space-between; gap: 8px; opacity: 0.9; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+        .inp-label { display: block; color: var(--muted); font-size: 0.7rem; font-weight: 700; margin-bottom: 8px; margin-top: 18px; letter-spacing: 1px; }
+        .inp-field { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border); padding: 16px; color: #fff; border-radius: 14px; font-family: 'Outfit', sans-serif; transition: 0.3s; }
+        .inp-field:focus { border-color: var(--accent); background: rgba(0,0,0,0.5); box-shadow: 0 0 15px var(--accent-dim); }
+        select.inp-field { color: #fff; background-color: rgba(0,0,0,0.3); -webkit-appearance: none; cursor: pointer; }
+        select.inp-field option { background-color: #0e0e14; color: #fff; padding: 12px; }
+        
+        /* --- PROPER TOGGLE --- */
+        .switch { position: relative; display: inline-block; width: 54px; height: 30px; }
         .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: #222; border-radius: 30px; transition: .3s; border: 1px solid var(--border); }
-        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background: #666; border-radius: 50%; transition: .3s; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
-        input:checked + .slider { background: rgba(255, 0, 85, 0.2); border-color: var(--red); }
-        input:checked + .slider:before { transform: translateX(22px); background: var(--red); box-shadow: 0 0 10px var(--red); }
-        input:not(:checked) + .slider { background: rgba(0, 255, 157, 0.2); border-color: var(--green); }
-        input:not(:checked) + .slider:before { background: var(--green); box-shadow: 0 0 10px var(--green); }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.05); border: 1px solid var(--border); -webkit-transition: .4s; transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 22px; width: 22px; left: 3px; bottom: 3px; background-color: #fff; -webkit-transition: .4s; transition: .4s; border-radius: 50%; box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
+        input:checked + .slider { background-color: var(--accent); border-color: var(--accent); box-shadow: 0 0 15px var(--accent); }
+        input:checked + .slider:before { -webkit-transform: translateX(24px); -ms-transform: translateX(24px); transform: translateX(24px); background-color: #000; }
 
-        /* --- NAV BAR --- */
-        .nav-fixed { position: fixed; bottom: 25px; left: 0; right: 0; display: flex; justify-content: center; z-index: 99; pointer-events: none; }
-        .nav-inner { 
-            background: var(--nav); border: 1px solid var(--border); padding: 0 10px; height: 70px; border-radius: 24px; width: 90%; max-width: 400px; 
-            display: flex; justify-content: space-around; align-items: center; 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6); backdrop-filter: var(--glass); pointer-events: auto; 
-        }
-        .nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--muted); font-size: 1.2rem; transition: 0.3s; cursor: pointer; height: 100%; border-radius: 12px; }
-        .nav-btn:hover { color: #fff; transform: translateY(-2px); }
-        .nav-btn.active { color: var(--accent); transform: translateY(-3px); text-shadow: 0 0 15px var(--accent); }
-        .nav-lbl { font-size: 0.65rem; margin-top: 4px; font-weight: 700; letter-spacing: 0.5px; opacity: 0.9; }
+        /* --- NAV DOCK --- */
+        .nav-dock { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 500px; height: 80px; background: var(--nav); border: 1px solid var(--border); border-radius: 28px; display: flex; justify-content: space-evenly; align-items: center; box-shadow: 0 20px 60px rgba(0,0,0,0.7); backdrop-filter: var(--glass); z-index: 100; padding: 0 10px; }
+        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--muted); font-size: 1.3rem; transition: 0.3s; cursor: pointer; height: 100%; position: relative; opacity: 0.6; }
+        .nav-item.active { color: var(--accent); transform: translateY(-5px); opacity: 1; }
+        .nav-item.active i { filter: drop-shadow(0 0 12px var(--accent)); }
+        .nav-lbl { font-size: 0.65rem; font-weight: 800; margin-top: 5px; letter-spacing: 1px; }
 
-        /* --- SETUP / TOAST / MODALS --- */
-        .setup-box { text-align: center; padding: 40px 25px; border: 1px solid var(--border); border-radius: 24px; background: var(--card); margin-top: 40px; backdrop-filter: blur(20px); box-shadow: var(--shadow); animation: fadeIn 0.5s ease; }
-        .btn-block { width: 100%; padding: 15px; background: var(--accent); color: #000; border: none; border-radius: 16px; font-weight: 800; margin-top: 15px; cursor: pointer; letter-spacing: 0.5px; font-size: 0.9rem; transition: 0.2s; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-        .btn-block:active { transform: scale(0.98); }
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 200; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); transition: 0.3s; opacity: 0; pointer-events: none; }
-        .modal-overlay.open { opacity: 1; pointer-events: auto; }
-        .modal-content { background: #111; width: 90%; max-width: 340px; padding: 30px; border-radius: 24px; border: 1px solid var(--border); box-shadow: 0 0 50px rgba(0,0,0,0.8); transform: scale(0.9); transition: 0.3s; }
-        .modal-overlay.open .modal-content { transform: scale(1); }
-        .inp-group { margin-bottom: 20px; text-align: left; }
-        .inp-label { display: block; color: var(--muted); font-size: 0.7rem; font-weight: 800; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
-        .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: var(--nav); border: 1px solid var(--accent); color: var(--text); padding: 12px 25px; border-radius: 50px; z-index: 300; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; align-items: center; gap: 10px; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.5); font-size: 0.85rem; white-space: nowrap; }
-        .toast.show { transform: translateX(-50%) translateY(0); }
-
-        /* --- THEME GRID --- */
-        .theme-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-height: 300px; overflow-y: auto; }
-        .theme-btn { 
-            background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 15px; 
-            border-radius: 12px; text-align: center; color: var(--muted); font-weight: 700; cursor: pointer; transition: 0.2s;
-        }
-        .theme-btn:hover { background: var(--accent); color: #000; }
+        /* --- MODALS --- */
+        .modal-wrap { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:200; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(10px); opacity:0; pointer-events:none; transition:0.3s; }
+        .modal-wrap.open { opacity:1; pointer-events:all; }
+        .modal-card { background: #121218; width:90%; max-width:400px; padding:30px; border-radius: 30px; border: 1px solid var(--border); max-height: 85vh; overflow-y: auto; box-shadow: 0 30px 80px rgba(0,0,0,0.8); }
+        .type-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .type-opt { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 14px; border-radius: 12px; text-align: center; cursor: pointer; font-size: 0.85rem; font-weight: 700; transition: 0.2s; color: var(--muted); }
+        .type-opt.selected { background: var(--accent); color: #000; border-color: var(--accent); box-shadow: 0 5px 20px -5px var(--accent); }
         
-        /* --- DPMODS PANEL --- */
-        .dp-card { background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%); border: 1px solid var(--border); border-radius: 20px; padding: 25px; text-align: center; margin-top: 20px; position: relative; overflow: hidden; }
-        .dp-card::after { content: ''; position: absolute; top:0; left:0; width:100%; height:4px; background: linear-gradient(90deg, transparent, var(--accent), transparent); }
+        .panel-theme-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .panel-theme-btn { padding: 18px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 16px; text-align: center; cursor: pointer; transition: 0.2s; font-weight: 700; color: var(--muted); letter-spacing: 1px; font-size: 0.8rem; }
+        .panel-theme-btn.active { border-color: var(--accent); background: var(--accent-dim); color: var(--accent); box-shadow: 0 0 20px var(--accent-dim); }
+
+        .device-item { font-size: 0.8rem; padding: 12px 15px; background: rgba(0,0,0,0.4); border-radius: 10px; margin-bottom: 8px; font-family: 'JetBrains Mono', monospace; border-left: 3px solid var(--muted); display: flex; justify-content: space-between; align-items: center; }
+        .device-item.active { border-left-color: var(--green); background: rgba(0, 255, 157, 0.05); }
+        .footer-brand { text-align: center; color: var(--muted); font-size: 0.7rem; margin-top: 40px; opacity: 0.4; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; }
+        .toast { position: fixed; top: 30px; left: 50%; transform: translateX(-50%) translateY(-100px); background: var(--nav); border: 1px solid var(--accent); padding: 14px 30px; border-radius: 50px; z-index: 300; display: flex; align-items: center; gap: 12px; transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); font-weight: 700; box-shadow: 0 10px 40px rgba(0,0,0,0.5); backdrop-filter: blur(10px); }
+        .toast.show { transform: translateX(-50%) translateY(0); }
     </style>
 </head>
 <body>
 
     <canvas id="bgCanvas"></canvas>
-    
-    <header>
-        <div class="brand"><i class="fas fa-cube"></i> <span id="brandName">...</span></div>
-        <div style="display:flex; gap:10px">
-            <div class="icon-btn" onclick="openThemeModal()"><i class="fas fa-palette"></i></div>
-            <div class="icon-btn" onclick="appInit(true)"><i class="fas fa-sync-alt"></i></div>
-        </div>
-    </header>
 
-    <div class="container">
-        <div id="viewLoader" style="text-align: center; padding: 100px 0;">
-            <i class="fas fa-circle-notch fa-spin" style="font-size: 2.5rem; color: var(--accent);"></i>
-            <p style="color: var(--muted); margin-top: 20px; font-weight: 600; letter-spacing: 2px; font-size: 0.8rem;">ESTABLISHING UPLINK...</p>
-        </div>
+    <div id="setupView" style="display:none;">
+        <i class="fas fa-cube" style="font-size: 3rem; color: var(--accent); margin-bottom: 20px;"></i>
+        <h2 style="margin-bottom: 10px;">Setup CRUSHAX PANEL</h2>
+        <input type="text" class="input-glass" id="setupInput" placeholder="Firebase URL..." style="margin-bottom:15px; width:100%; max-width:300px;">
+        <button class="btn-gradient" style="width:100%; max-width:300px; justify-content:center;" onclick="saveSetupUrl()">CONNECT</button>
+    </div>
 
-        <div id="viewSetup" class="hidden setup-box">
-            <div style="width: 60px; height: 60px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; border: 1px solid var(--border);">
-                <i class="fas fa-database" style="font-size: 1.5rem; color: var(--accent);"></i>
+    <div id="appView" class="hidden">
+        <header>
+            <div class="brand"><i class="fas fa-shield-alt"></i> CRUSHAX PANEL</div>
+            <div style="display:flex; gap:10px;">
+                <div class="icon-btn" onclick="openPanelThemeModal()"><i class="fas fa-palette"></i></div>
+                <div class="icon-btn" onclick="appInit(true)"><i class="fas fa-sync-alt"></i></div>
             </div>
-            <h2 style="margin: 0 0 10px 0;">Connect Database</h2>
-            <div class="inp-group"><label class="inp-label">FIREBASE URL</label><input type="text" class="input-std" id="inputDbUrl" placeholder="https://..." style="padding-left: 15px;"></div>
-            <button class="btn-block" onclick="saveUrlAndConnect()">ESTABLISH CONNECTION</button>
-        </div>
+        </header>
 
-        <div id="viewDashboard" class="hidden fade-in">
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:20px;">
-                <div class="item-card" style="align-items:center; padding:15px; margin:0; border-color: rgba(0,229,255,0.2);">
-                    <span style="font-size:1.8rem; font-weight:800; color:var(--accent);" id="statKeys">0</span>
-                    <span style="font-size:0.65rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing: 1px;">Valid Keys</span>
-                </div>
-                <div class="item-card" style="align-items:center; padding:15px; margin:0; border-color: rgba(0,255,157,0.2);">
-                    <span style="font-size:1.8rem; font-weight:800; color:var(--green);" id="statDevs">0</span>
-                    <span style="font-size:0.65rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing: 1px;">Devices</span>
-                </div>
+        <div class="container">
+            <div id="loader" style="text-align: center; padding: 100px 0;">
+                <i class="fas fa-circle-notch fa-spin" style="font-size: 3rem; color: var(--accent);"></i>
+                <p style="color: var(--muted); margin-top: 20px;">SYNCING DATA...</p>
             </div>
 
-            <div id="tabKeys">
+            <div id="tabKeys" class="hidden">
                 <div class="controls">
-                    <div class="search"><i class="fas fa-search"></i><input type="text" class="input-std" id="searchKeys" placeholder="Search Keys..." onkeyup="renderKeys()"></div>
-                    <button class="btn-main" onclick="openModal('modalKey')"><i class="fas fa-plus"></i> NEW</button>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" class="input-glass" id="searchKey" placeholder="Search keys..." onkeyup="renderKeys()">
+                    </div>
+                    <button class="btn-gradient" onclick="openGenModal(true)"><i class="fas fa-plus"></i></button>
                 </div>
-                <div id="listKeys"></div>
+                <div id="keysList"></div>
             </div>
 
             <div id="tabDevices" class="hidden">
                 <div class="controls">
-                    <div class="search"><i class="fas fa-search"></i><input type="text" class="input-std" id="searchDevs" placeholder="Search Device ID..." onkeyup="renderDevices()"></div>
+                    <div style="font-weight:700; font-size:1.2rem; flex:1; letter-spacing:-0.5px;">Active Devices</div>
+                    <button class="btn-gradient" onclick="openAddDeviceModal(true)"><i class="fas fa-link"></i> LINK DEVICE</button>
                 </div>
-                <div class="chips">
-                    <div class="chip active" onclick="setDevFilter('all', this)">All Devices</div>
-                    <div class="chip" onclick="setDevFilter('allowed', this)">Allowed Only</div>
-                    <div class="chip" onclick="setDevFilter('banned', this)">Banned Only</div>
-                </div>
-                <div id="listDevices"></div>
+                <div id="deviceGlobalList"></div>
             </div>
 
             <div id="tabConfig" class="hidden">
-                <h3 style="margin-bottom:20px; color:var(--text); font-weight:800; display:flex; align-items:center; gap:10px;">
-                    <i class="fas fa-cogs" style="color:var(--accent)"></i> System Config
-                </h3>
-                
-                <div class="item-card">
-                    <h4 style="margin:0 0 15px 0; color:var(--accent); font-size:0.85rem; border-bottom:1px solid var(--border); padding-bottom:10px;">APP SETTINGS</h4>
-                    <div class="inp-group"><label class="inp-label">APP TITLE</label><input type="text" class="input-std" id="confTitle" style="padding-left:15px"></div>
-                    <div class="inp-group"><label class="inp-label">SUBTITLE</label><input type="text" class="input-std" id="confSub" style="padding-left:15px"></div>
-                    <div class="inp-group"><label class="inp-label">APP VERSION</label><input type="number" class="input-std" id="confVer" style="padding-left:15px" placeholder="1"></div>
-                    <div class="inp-group"><label class="inp-label">UPDATE URL</label><input type="text" class="input-std" id="confUpdateUrl" style="padding-left:15px" placeholder="https://..."></div>
-                    <div class="inp-group"><label class="inp-label">ADMIN CONTACT URL</label><input type="text" class="input-std" id="confUrl" style="padding-left:15px"></div>
-                </div>
+                <div class="glass-card">
+                    <div class="cfg-section">
+                        <div class="cfg-head"><i class="fas fa-paint-brush"></i> UI & STATUS</div>
+                        <div class="inp-label">APP STATUS</div><select class="inp-field" id="cfgStatus"><option value="Safe">Safe</option><option value="Risk">Risk</option></select>
+                        
+                        <div class="inp-label">MENU THEME (CLIENT)</div>
+                        <select class="inp-field" id="cfgClientTheme">
+                            <optgroup label="Green / Hacker"><option value="Matrix">Matrix</option><option value="Hacker">Hacker</option><option value="Toxic">Toxic</option><option value="Neon">Neon</option></optgroup>
+                            <optgroup label="Red / Pink"><option value="Cherry">Cherry</option><option value="Love">Love</option><option value="Sakura">Sakura</option><option value="Peach">Peach</option><option value="Christmas">Christmas</option><option value="Hell">Hell</option><option value="Fire">Fire</option><option value="Magma">Magma</option></optgroup>
+                            <optgroup label="Blue / Ice"><option value="Moon">Moon</option><option value="Ice">Ice</option><option value="Rain">Rain</option><option value="Ocean">Ocean</option><option value="Storm">Storm</option><option value="Cyberpunk">Cyberpunk</option></optgroup>
+                            <optgroup label="Other"><option value="White">White</option><option value="Sunset">Sunset</option><option value="Bubblegum">Bubblegum</option><option value="Violet">Violet</option><option value="Galaxy">Galaxy</option><option value="Gold">Gold</option></optgroup>
+                        </select>
 
-                <div class="item-card">
-                    <h4 style="margin:0 0 15px 0; color:var(--accent); font-size:0.85rem; border-bottom:1px solid var(--border); padding-bottom:10px;">UI CUSTOMIZATION</h4>
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                        <div class="inp-group"><label class="inp-label">BTN ADMIN</label><input type="text" class="input-std" id="confBtnAdmin" style="padding-left:15px"></div>
-                        <div class="inp-group"><label class="inp-label">BTN KEY</label><input type="text" class="input-std" id="confBtnKey" style="padding-left:15px"></div>
+                        <div class="inp-label">APP TITLE</div> <input type="text" class="inp-field" id="cfgTitle">
+                        <div class="inp-label">SUBTITLE</div> <input type="text" class="inp-field" id="cfgSub">
+                        <div class="inp-label">BG URL</div> <input type="text" class="inp-field" id="cfgBg">
+                        <div class="inp-label">PROFILE URL</div> <input type="text" class="inp-field" id="cfgProf">
+                        
+                        <div class="inp-label">ADMIN BUTTON TEXT</div> <input type="text" class="inp-field" id="cfgBtnAdmin" placeholder="Admin">
                     </div>
-                    <div class="inp-group"><label class="inp-label">BTN LOGIN</label><input type="text" class="input-std" id="confBtnLogin" style="padding-left:15px"></div>
-                    <div class="inp-group"><label class="inp-label">INPUT HINT</label><input type="text" class="input-std" id="confHint" style="padding-left:15px"></div>
-                    <div class="inp-group"><label class="inp-label">KEY DURATION (HOURS)</label><input type="number" class="input-std" id="confDuration" style="padding-left:15px" value="24"></div>
-                </div>
 
-                <div class="item-card">
-                    <h4 style="margin:0 0 15px 0; color:var(--accent); font-size:0.85rem; border-bottom:1px solid var(--border); padding-bottom:10px;">API CONNECTION</h4>
-                    <div class="inp-group"><label class="inp-label">API BASE URL</label><input type="text" class="input-std" id="confApiUrl" placeholder="https://api.example.com" style="padding-left:15px"></div>
-                    <div class="inp-group"><label class="inp-label">API TOKEN</label><input type="text" class="input-std" id="confApiToken" placeholder="sk_live_..." style="padding-left:15px"></div>
-                    <button class="btn-block" onclick="saveConfig()">SAVE CONFIGURATION</button>
-                </div>
-
-                <div class="dp-card" id="aboutPanel">
-                    <i class="fas fa-code-branch" style="font-size:2rem; color:var(--accent); margin-bottom:15px;"></i>
-                    <h4 style="margin:0; font-size:1.1rem; color:var(--text);" id="panelTitle">...</h4>
-                    <div style="background:rgba(0,0,0,0.3); padding:10px; border-radius:12px; border:1px solid var(--border); display:inline-block; margin-top:15px; min-width: 200px;">
-                        <span style="font-size:0.65rem; color:var(--muted); font-weight:800; letter-spacing:1px; text-transform:uppercase;">Developed By</span><br>
-                        <span style="font-size:1.3rem; font-weight:800; color:var(--accent); text-shadow: 0 0 15px var(--accent); letter-spacing:-0.5px;" id="panelDev">...</span>
+                    <div class="cfg-section">
+                        <div class="cfg-head"><i class="fas fa-rocket"></i> Updates</div>
+                        <div style="display:grid; grid-template-columns: 1fr 2fr; gap:10px;">
+                            <div><div class="inp-label">VERSION</div><input type="text" class="inp-field" id="cfgVer"></div>
+                            <div><div class="inp-label">UPDATE URL</div><input type="text" class="inp-field" id="urlUpdate"></div>
+                        </div>
+                        <div class="inp-label">HELP URL</div><input type="text" class="inp-field" id="urlHelp">
                     </div>
+
+                    <div class="cfg-section">
+                        <div class="cfg-head"><div style="display:flex;align-items:center;gap:8px;"><i class="fas fa-bullhorn"></i> Announcement</div><label class="switch"><input type="checkbox" id="annShow"><span class="slider"></span></label></div>
+                        <div class="inp-label">TITLE</div> <input type="text" class="inp-field" id="annTitle">
+                        <div class="inp-label">MESSAGE</div> <input type="text" class="inp-field" id="annMsg">
+                    </div>
+
+                    <div class="cfg-section">
+                        <div class="cfg-head"><div style="display:flex;align-items:center;gap:8px;"><i class="fas fa-tools"></i> Maintenance</div><label class="switch"><input type="checkbox" id="maintShow"><span class="slider"></span></label></div>
+                        <div class="inp-label">MESSAGE</div> <input type="text" class="inp-field" id="maintMsg">
+                    </div>
+
+                    <button class="btn-gradient" style="width:100%; justify-content:center;" onclick="saveConfig()">SAVE CHANGES</button>
+                    <button class="btn-text" style="width:100%; margin-top:20px; color:var(--muted); background:none; border:none;" onclick="hardReset()">DISCONNECT</button>
                 </div>
-
-                <div class="item-card" style="border-color: rgba(255,0,85,0.3); margin-top: 20px;">
-                    <h4 style="margin:0 0 10px 0; color:var(--red);">DANGER ZONE</h4>
-                    <button class="btn-block" style="background: rgba(255,0,85,0.1); color: var(--red); border: 1px solid var(--red); margin-top:10px;" onclick="hardReset()">DISCONNECT DATABASE</button>
-<button class="btn-block"
-    style="background: var(--red); color:#000; margin-top:10px;"
-    onclick="deleteAllData()">
-    💣 DELETE ALL KEYS & DEVICES
-</button>
-                </div>
             </div>
+
+            <div class="footer-brand">PANEL BY CRUSHAX</div>
+        </div>
+
+        <div class="nav-dock">
+            <div class="nav-item active" id="navKey" onclick="switchTab('keys')"><i class="fas fa-key"></i><span class="nav-lbl">KEYS</span></div>
+            <div class="nav-item" id="navDev" onclick="switchTab('devices')"><i class="fas fa-mobile-alt"></i><span class="nav-lbl">DEVICES</span></div>
+            <div class="nav-item" id="navConf" onclick="switchTab('conf')"><i class="fas fa-sliders-h"></i><span class="nav-lbl">CONFIG</span></div>
         </div>
     </div>
 
-    <div id="modalKey" class="modal-overlay">
-        <div class="modal-content">
-            <h3 style="margin-top:0;">Generate Keys</h3>
-            <div class="inp-group"><label class="inp-label">PREFIX</label><input type="text" class="input-std" id="keyPrefix" value="CRUSHAX" style="padding-left:15px"></div>
-            <div class="inp-group"><label class="inp-label">QUANTITY</label><input type="number" class="input-std" id="keyQty" value="1" style="padding-left:15px"></div>
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                <button class="btn-block" style="margin-top:0" onclick="generateKeys()">GENERATE</button>
-                <button class="btn-block" style="margin-top:0; background:transparent; border:1px solid var(--border); color:var(--muted)" onclick="closeModal('modalKey')">CANCEL</button>
+    <div id="panelThemeModal" class="modal-wrap">
+        <div class="modal-card">
+            <h3 style="margin-top:0; color:#fff; margin-bottom:20px; text-align:center;">Select Theme</h3>
+            <div class="panel-theme-grid">
+                <div class="panel-theme-btn" onclick="setPanelTheme('Cyberpunk')">CYBERPUNK</div>
+                <div class="panel-theme-btn" onclick="setPanelTheme('Matrix')">MATRIX</div>
+                <div class="panel-theme-btn" onclick="setPanelTheme('Blood')">BLOOD</div>
+                <div class="panel-theme-btn" onclick="setPanelTheme('Ocean')">OCEAN</div>
+                <div class="panel-theme-btn" onclick="setPanelTheme('Gold')">GOLD</div>
+                <div class="panel-theme-btn" onclick="setPanelTheme('Violet')">VIOLET</div>
             </div>
+            <button class="btn-text" style="width:100%; color:var(--muted); background:transparent; border:none; margin-top:20px;" onclick="closeModals()">CLOSE</button>
         </div>
     </div>
 
-    <div id="modalEdit" class="modal-overlay">
-        <div class="modal-content">
-            <h3 style="margin-top:0;">Edit Key</h3>
-            <input type="hidden" id="editOld">
-            <div class="inp-group"><label class="inp-label">KEY STRING</label><input type="text" class="input-std" id="editNew" style="padding-left:15px"></div>
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                <button class="btn-block" style="margin-top:0" onclick="saveKeyEdit()">SAVE</button>
-                <button class="btn-block" style="margin-top:0; background:transparent; border:1px solid var(--border); color:var(--muted)" onclick="closeModal('modalEdit')">CANCEL</button>
+    <div id="genModal" class="modal-wrap">
+        <div class="modal-card">
+            <h3 style="margin-top:0; color:#fff; margin-bottom:20px;" id="keyModalTitle">New Key</h3>
+            <input type="hidden" id="keyEditMode" value="false">
+            <input type="hidden" id="keyOriginalName" value="">
+            <div class="inp-label">NAME / PREFIX</div><input type="text" class="inp-field" id="genName" value="Key_VIP">
+            <div class="inp-label">TYPE</div>
+            <div class="type-grid">
+                <div class="type-opt selected" onclick="selectType('Duration')" id="typeDur">Duration</div>
+                <div class="type-opt" onclick="selectType('Fixed')" id="typeFix">Fixed</div>
+                <div class="type-opt" onclick="selectType('Lifetime')" id="typeLife">Lifetime</div>
             </div>
+            <input type="hidden" id="genType" value="Duration">
+            <div id="boxDur">
+                <div class="inp-label">DURATION (e.g. 1h)</div><input type="text" class="inp-field" id="genValDur" placeholder="1d">
+                <div class="inp-label">SHOW AGAIN (Optional)</div><input type="text" class="inp-field" id="genShowAgain" placeholder="e.g. 1h">
+            </div>
+            <div id="boxFix" class="hidden"><div class="inp-label">EXPIRY DATE</div><input type="date" class="inp-field" id="genValFix"></div>
+            <div class="inp-label">MAX DEVICES</div><input type="number" class="inp-field" id="genMax" value="1">
+            <button class="btn-gradient" style="width:100%; justify-content:center; margin-top:25px;" onclick="saveKey()" id="keyModalBtn">GENERATE</button>
+            <button class="btn-text" style="width:100%; color:var(--muted); background:transparent; border:none; margin-top:10px;" onclick="closeModals()">CANCEL</button>
         </div>
     </div>
 
-    <div id="modalEditDevice" class="modal-overlay">
-        <div class="modal-content">
-            <h3 style="margin-top:0;">Edit Device</h3>
-            <input type="hidden" id="editDeviceOld">
-            <input type="hidden" id="editDeviceType"> <div class="inp-group">
-                <label class="inp-label">DEVICE ID</label>
-                <input type="text" class="input-std" id="editDeviceNew" style="padding-left:15px">
-            </div>
-            <div class="inp-group">
-                <label class="inp-label">LINKED KEY</label>
-                <input type="text" class="input-std" id="editDeviceKey" style="padding-left:15px">
-            </div>
-            <div class="inp-group">
-                <label class="inp-label">EXPIRY DATE (READABLE)</label>
-                <input type="text" class="input-std" id="editDeviceExpiry" style="padding-left:15px">
-            </div>
-
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                <button class="btn-block" style="margin-top:0" onclick="saveDeviceEdit()">UPDATE</button>
-                <button class="btn-block" style="margin-top:0; background:transparent; border:1px solid var(--border); color:var(--muted)" onclick="closeModal('modalEditDevice')">CANCEL</button>
-            </div>
+    <div id="addDevModal" class="modal-wrap">
+        <div class="modal-card">
+            <h3 style="margin-top:0; color:#fff; margin-bottom:20px;" id="devModalTitle">Link Device</h3>
+            <input type="hidden" id="devEditMode" value="false">
+            <input type="hidden" id="devOriginalId" value="">
+            <input type="hidden" id="devOriginalKey" value="">
+            <div class="inp-label">DEVICE ID</div><input type="text" class="inp-field" id="newDevId" placeholder="e.g. 3ba4...">
+            <div class="inp-label">ASSIGN TO KEY</div><select class="inp-field" id="newDevKey"></select>
+            <button class="btn-gradient" style="width:100%; justify-content:center; margin-top:25px;" onclick="saveDevice()" id="devModalBtn">LINK</button>
+            <button class="btn-text" style="width:100%; color:var(--muted); background:transparent; border:none; margin-top:10px;" onclick="closeModals()">CANCEL</button>
         </div>
     </div>
 
-    <div id="modalThemes" class="modal-overlay">
-        <div class="modal-content">
-            <h3 style="margin-top:0;">Select Theme</h3>
-            <div class="theme-grid" id="themeList"></div>
-            <button class="btn-block" style="margin-top:15px; background:transparent; border:1px solid var(--border); color:var(--muted)" onclick="closeModal('modalThemes')">CLOSE</button>
+    <div id="detailModal" class="modal-wrap">
+        <div class="modal-card">
+            <h3 style="margin-top:0; color:#fff; display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <span>Overview</span><i class="fas fa-times" onclick="closeModals()" style="font-size:1.2rem; color:var(--muted); cursor:pointer;"></i>
+            </h3>
+            <div id="detailContent"></div>
         </div>
     </div>
 
-    <div id="toast" class="toast"><i class="fas fa-check-circle" style="color:var(--green)"></i><span>Action Successful</span></div>
+    <div id="toast" class="toast"><i class="fas fa-check-circle" style="color:var(--green)"></i><span>Success</span></div>
 
-    <div class="nav-fixed">
-        <div class="nav-inner">
-            <div class="nav-btn active" id="navKey" onclick="switchTab('keys')"><i class="fas fa-key"></i><span class="nav-lbl">KEYS</span></div>
-            <div class="nav-btn" id="navDev" onclick="switchTab('devices')"><i class="fas fa-mobile-alt"></i><span class="nav-lbl">DEVICES</span></div>
-            <div class="nav-btn" id="navConf" onclick="switchTab('config')"><i class="fas fa-sliders-h"></i><span class="nav-lbl">CONFIG</span></div>
-        </div>
-    </div>
-
-    <script>function deleteAllData(){
-    const pin = prompt("Enter Admin PIN to DELETE ALL data");
-
-    if(pin !== "7860"){
-        showToast("Wrong PIN");
-        return;
-    }
-
-    dbData.ValidKeys = {};
-    dbData.ActivatedUsers = {};
-    dbData.BannedDevices = {};
-
-    syncDB();
-    showToast("ALL KEYS & DEVICES DELETED");
-}
-    
-        // ==========================================
-        // 1. CONFIG & INIT
-        // ==========================================
-        let dbUrl = localStorage.getItem("gateway_db_url") || "";
+    <script>
+        let dbUrl = localStorage.getItem("dpAdminUrl");
         let dbData = null;
-        let devFilter = 'all';
-        let themes = ['cyberpunk', 'gold', 'ice', 'nature', 'itachi', 'gojo', 'luffy', 'matrix', 'demon', 'blood'];
-        let curTheme = localStorage.getItem("gateway_theme") || "cyberpunk";
+        
+        // --- COMPLEX ANIMATIONS ---
+        const cvs = document.getElementById('bgCanvas');
+        const ctx = cvs.getContext('2d');
+        let animationId;
+        let particles = [];
+        let animMode = 'particles'; 
 
-        // ENCRYPTED CREDITS
-        const _s1 = btoa("CRUSH AX MODS");
-          const _s2 = btoa("CRUSH AX");
+        function resize() { cvs.width = window.innerWidth; cvs.height = window.innerHeight; }
+        window.addEventListener('resize', resize);
+        resize();
 
-        const DEFAULT_DATA = { 
-            "Config": { 
-                "Title": "CRUSH AX VIP", "Subtitle": "CRUSH AX MODS // ONLINE", "AdminUrl": "", "UpdateUrl": "",
-                "AppVersion": 1, "KeyDurationHours": 24,
-                "Api": { "BaseUrl": "", "Token": "" },
-                "Texts": { "BtnAdmin": "CRUSH AX SUPPORT", "BtnKey": "GET KEY", "BtnLogin": "ACTIVATE SYSTEM", "Hint": "ENTER ACCESS KEY" }
-            }, 
-            "BannedDevices": {}, "ActivatedUsers": {}, "ValidKeys": {} 
+        // 1. Matrix Rain (Greens)
+        function initMatrix() {
+            animMode = 'matrix';
+            particles = Array(Math.floor(cvs.width/14)).fill(1);
+        }
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, cvs.width, cvs.height);
+            ctx.fillStyle = '#00ff41';
+            ctx.font = '14px monospace';
+            particles.forEach((y, i) => {
+                const text = String.fromCharCode(0x30A0 + Math.random()*96);
+                ctx.fillText(text, i*14, y*14);
+                if (y*14 > cvs.height && Math.random() > 0.975) particles[i] = 0;
+                particles[i]++;
+            });
+        }
+
+        // 2. Heavy Rain (Blood)
+        function initRain() {
+            animMode = 'rain';
+            particles = [];
+            for(let i=0; i<100; i++) particles.push({x:Math.random()*cvs.width, y:Math.random()*cvs.height, v:Math.random()*5+5});
+        }
+        function drawRain() {
+            ctx.clearRect(0,0,cvs.width,cvs.height);
+            ctx.strokeStyle = '#ff0033';
+            ctx.lineWidth = 2;
+            particles.forEach(p => {
+                ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x, p.y+15); ctx.stroke();
+                p.y += p.v; if(p.y > cvs.height) p.y = -20;
+            });
+        }
+
+        // 3. Bubbles (Ocean)
+        function initBubbles() {
+            animMode = 'bubbles';
+            particles = [];
+            for(let i=0; i<40; i++) particles.push({x:Math.random()*cvs.width, y:cvs.height+Math.random()*100, s:Math.random()*5+2, v:Math.random()*1+0.5});
+        }
+        function drawBubbles() {
+            ctx.clearRect(0,0,cvs.width,cvs.height);
+            ctx.fillStyle = 'rgba(0, 204, 255, 0.3)';
+            particles.forEach(p => {
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, Math.PI*2); ctx.fill();
+                p.y -= p.v; if(p.y < -10) p.y = cvs.height + 10;
+            });
+        }
+
+        // 4. Sparkles (Gold)
+        function initSparkles() {
+            animMode = 'sparkles';
+            particles = [];
+            for(let i=0; i<50; i++) particles.push({x:Math.random()*cvs.width, y:Math.random()*cvs.height, s:Math.random()*2, a:Math.random(), d:Math.random()*0.02});
+        }
+        function drawSparkles() {
+            ctx.clearRect(0,0,cvs.width,cvs.height);
+            ctx.fillStyle = '#ffd700';
+            particles.forEach(p => {
+                ctx.globalAlpha = Math.abs(Math.sin(p.a));
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, Math.PI*2); ctx.fill();
+                p.a += p.d;
+            });
+            ctx.globalAlpha = 1;
+        }
+
+        // 5. Standard Particles (Cyberpunk/Violet) - NOW HAS A DEFAULT COLOR LOGIC
+        function initParticles() {
+            animMode = 'particles';
+            particles = [];
+            for(let i=0; i<50; i++) particles.push({x:Math.random()*cvs.width, y:Math.random()*cvs.height, vx:(Math.random()-0.5), vy:(Math.random()-0.5), s:Math.random()*2});
+        }
+        function drawParticles() {
+            ctx.clearRect(0,0,cvs.width,cvs.height);
+            // Dynamic color fetch to fix black screen issue
+            const style = getComputedStyle(document.documentElement);
+            ctx.fillStyle = style.getPropertyValue('--accent').trim(); 
+            ctx.globalAlpha = 0.4;
+            particles.forEach(p => {
+                p.x+=p.vx; p.y+=p.vy;
+                if(p.x<0||p.x>cvs.width) p.vx*=-1; if(p.y<0||p.y>cvs.height) p.vy*=-1;
+                ctx.beginPath(); ctx.arc(p.x,p.y,p.s,0,Math.PI*2); ctx.fill();
+            });
+        }
+
+        function animate() {
+            if(animMode === 'matrix') drawMatrix();
+            else if(animMode === 'rain') drawRain();
+            else if(animMode === 'bubbles') drawBubbles();
+            else if(animMode === 'sparkles') drawSparkles();
+            else drawParticles();
+            animationId = requestAnimationFrame(animate);
+        }
+
+        // --- APP DATA ---
+        const DEFAULT_JSON = {
+            "Config": {
+                "Announcement": {"Message": "We have added 1 Hour and 1 Week keys. Enjoy!", "Show": false, "Title": "NEW KEYS ADDED"},
+                "AppVersion": "1.0", "HelpUrl": "https://t.me/dp_mods", "Maintenance": false, "MaintenanceMessage": "Updating...", "Status": "Safe", "Theme": "Cyberpunk",
+                "UI": {"BackgroundUrl": "https://images.unsplash.com/photo-1672009190560-12e7bade8d09", "BtnAdmin": "Admin", "ProfileUrl": "https://cdn.pfps.gg/pfps/8120-sung-jin-woo-profile-photo.png", "Subtitle": "Subscribe For Best Dialogs 🌸", "Title": "DPMods  YT"},
+                "UpdateUrl": "https://google.com"
+            },
+            "Keys": {
+                "DPMods": {"ActivatedAt": 1767461797189, "Devices": {"3ba4a93f018dc799": true}, "MaxDevices": 1, "ShowAgain": "20s", "Type": "Duration", "Value": "10m"},
+                "Key_1Day_Trial": {"ActivatedAt": 1767357144788, "Devices": "null", "MaxDevices": 1, "ShowAgain": "1h", "Type": "Duration", "Value": "1d"}
+            }
         };
 
-        const canvas = document.getElementById('bgCanvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        let animationId;
+        function cleanUrl(u) { let s = u.trim(); if(s.includes("firebaseio.com")) s = s.split("firebaseio.com")[0] + "firebaseio.com"; return s + "/.json"; }
+        function saveSetupUrl() { const u = document.getElementById('setupInput').value; if(!u) return alert("URL Required"); localStorage.setItem("dpAdminUrl", u); location.reload(); }
 
-        function initDecryption() {
-            try {
-                document.getElementById('brandName').innerText = atob(_s1);
-                document.getElementById('panelTitle').innerText = atob(_s1);
-                document.getElementById('panelDev').innerText = atob(_s2);
-            } catch(e) {}
-        }
+        // --- INIT ---
+        if(!dbUrl) { document.getElementById('setupView').style.display = 'flex'; } 
+        else { appInit(); }
 
-        async function appInit(isManual = false) {
-            initDecryption();
-            document.documentElement.setAttribute('data-theme', curTheme);
-            setAnimation(curTheme);
+        async function appInit(manual=false) {
+            document.getElementById('appView').classList.remove('hidden');
+            document.getElementById('loader').classList.remove('hidden');
+            ['tabKeys','tabConfig','tabDevices'].forEach(id => document.getElementById(id).classList.add('hidden'));
 
-            document.getElementById('viewLoader').classList.remove('hidden');
-            document.getElementById('viewSetup').classList.add('hidden');
-            document.getElementById('viewDashboard').classList.add('hidden');
-            document.querySelector('.nav-fixed').classList.add('hidden');
-
-            if (!dbUrl) {
-                setTimeout(() => {
-                    document.getElementById('viewLoader').classList.add('hidden');
-                    document.getElementById('viewSetup').classList.remove('hidden');
-                }, 800);
-                return;
-            }
-
-            const finalUrl = sanitizeUrl(dbUrl);
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 10000);
-
-            try {
-                const response = await fetch(finalUrl, { signal: controller.signal });
-                clearTimeout(timeoutId);
-                if (!response.ok) throw new Error("Connection failed");
-                let data = await response.json();
-
-                if (!data) {
-                    await fetch(finalUrl, { method: 'PUT', body: JSON.stringify(DEFAULT_DATA) });
-                    data = DEFAULT_DATA;
+            // SAFETY NET: Force UI load after 1.5s if fetch hangs
+            setTimeout(() => {
+                if(!dbData && document.getElementById('loader').classList.contains('hidden') === false) {
+                    console.log("Forcing UI load...");
+                    document.getElementById('loader').classList.add('hidden');
+                    document.getElementById('tabConfig').classList.remove('hidden');
                 }
+            }, 1500);
 
+            try {
+                const res = await fetch(cleanUrl(dbUrl));
+                if(!res.ok) throw new Error("HTTP Error");
+                let data = await res.json();
+                if(!data) { await fetch(cleanUrl(dbUrl), { method:'PUT', body:JSON.stringify(DEFAULT_JSON) }); data = DEFAULT_JSON; }
                 dbData = data;
-                ensureDataStructure();
-                renderAll();
+                
+                // Set Theme immediately
+                if(dbData.Config.Theme) setPanelTheme(dbData.Config.Theme, false);
 
-                document.getElementById('viewLoader').classList.add('hidden');
-                document.getElementById('viewDashboard').classList.remove('hidden');
-                document.querySelector('.nav-fixed').classList.remove('hidden');
-                if(isManual) showToast("System Reloaded");
-
-            } catch (err) {
-                document.getElementById('viewLoader').classList.add('hidden');
-                document.getElementById('viewSetup').classList.remove('hidden');
-                showToast("Connection Error");
+                document.getElementById('loader').classList.add('hidden');
+                switchTab('keys');
+                renderKeys();
+                if(!manual) showToast("Connected");
+            } catch(e) { 
+                console.error(e);
+                alert("Connection Failed. Check URL.");
             }
         }
 
-        function saveUrlAndConnect() {
-            let inp = document.getElementById('inputDbUrl').value.trim();
-            if(!inp) return showToast("Invalid URL");
-            if(!inp.startsWith("http")) inp = "https://" + inp;
-            if(!inp.includes("firebaseio.com")) inp += ".firebaseio.com";
-            localStorage.setItem("gateway_db_url", inp);
-            dbUrl = inp;
-            appInit();
-        }
+        async function sync() { try { await fetch(cleanUrl(dbUrl), { method:'PUT', body:JSON.stringify(dbData) }); showToast("Saved"); } catch(e) { showToast("Error"); } }
 
-        function sanitizeUrl(url) { return url.endsWith("/") ? url + ".json" : url + "/.json"; }
-
-        function ensureDataStructure() {
-            if(!dbData.ValidKeys) dbData.ValidKeys = {};
-            if(!dbData.ActivatedUsers) dbData.ActivatedUsers = {};
-            if(!dbData.BannedDevices) dbData.BannedDevices = {};
-            if(!dbData.Config) dbData.Config = DEFAULT_DATA.Config;
-            if(!dbData.Config.Api) dbData.Config.Api = { BaseUrl: "", Token: "" };
-            if(!dbData.Config.Texts) dbData.Config.Texts = DEFAULT_DATA.Config.Texts;
-        }
-
-        async function syncDB() {
-            try {
-                await fetch(sanitizeUrl(dbUrl), { method: 'PUT', body: JSON.stringify(dbData) });
-                showToast("Saved");
-                renderAll();
-            } catch (e) { showToast("Save Failed"); }
-        }
-
-        function hardReset() {
-            if(confirm("Disconnect?")) { localStorage.removeItem("gateway_db_url"); location.reload(); }
-        }
-
-        // ==========================================
-        // 3. RENDERERS
-        // ==========================================
-        function renderAll() {
-            renderKeys();
-            renderDevices();
-            document.getElementById('statKeys').innerText = Object.keys(dbData.ValidKeys).length;
-            document.getElementById('statDevs').innerText = Object.keys(dbData.ActivatedUsers).length + Object.keys(dbData.BannedDevices).length;
-            
-            document.getElementById('confTitle').value = dbData.Config.Title || "";
-            document.getElementById('confSub').value = dbData.Config.Subtitle || "";
-            document.getElementById('confUrl').value = dbData.Config.AdminUrl || "";
-            document.getElementById('confVer').value = dbData.Config.AppVersion || 1;
-            document.getElementById('confUpdateUrl').value = dbData.Config.UpdateUrl || "";
-            document.getElementById('confDuration').value = dbData.Config.KeyDurationHours || 24;
-
-            document.getElementById('confBtnAdmin').value = dbData.Config.Texts.BtnAdmin || "";
-            document.getElementById('confBtnKey').value = dbData.Config.Texts.BtnKey || "";
-            document.getElementById('confBtnLogin').value = dbData.Config.Texts.BtnLogin || "";
-            document.getElementById('confHint').value = dbData.Config.Texts.Hint || "";
-
-            document.getElementById('confApiUrl').value = dbData.Config.Api.BaseUrl || "";
-            document.getElementById('confApiToken').value = dbData.Config.Api.Token || "";
-        }
+        function copyText(t) { navigator.clipboard.writeText(t).then(() => showToast("Copied!")).catch(() => showToast("Failed")); }
 
         function renderKeys() {
-            const list = document.getElementById('listKeys');
-            const search = document.getElementById('searchKeys').value.toLowerCase();
+            const list = document.getElementById('keysList');
+            if(!dbData.Keys) dbData.Keys = {};
             list.innerHTML = "";
-            Object.keys(dbData.ValidKeys).reverse().forEach(key => {
-                if (search && !key.toLowerCase().includes(search)) return;
-                list.innerHTML += `
-                <div class="item-card active-card">
-                    <div class="row-top">
-                        <span class="mono-text" onclick="copy('${key}')">${key}</span>
-                        <div style="display:flex; gap:8px">
-                            <div class="icon-btn" style="width:32px; height:32px;" onclick="editKey('${key}')"><i class="fas fa-pen" style="font-size:0.8rem"></i></div>
-                            <div class="icon-btn" style="width:32px; height:32px; border-color:var(--red); color:var(--red);" onclick="delKey('${key}')"><i class="fas fa-trash" style="font-size:0.8rem;"></i></div>
-                        </div>
-                    </div>
-                </div>`;
+            const search = document.getElementById('searchKey').value.toLowerCase();
+            Object.keys(dbData.Keys).reverse().forEach(kName => {
+                if(search && !kName.toLowerCase().includes(search)) return;
+                const k = dbData.Keys[kName];
+                let badge = k.Type==='Fixed'?'fix':(k.Type==='Lifetime'?'life':'dur');
+                let devC = (k.Devices && typeof k.Devices==='object') ? Object.keys(k.Devices).length : 0;
+                list.innerHTML += `<div class="glass-card"><div class="key-row-top"><span class="key-title" onclick="copyText('${kName}')"><i class="fas fa-copy"></i> ${kName}</span><span class="badge ${badge}">${k.Type}</span></div><div class="key-details"><div class="detail-item"><i class="fas fa-tag"></i> ${k.Value}</div><div class="detail-item"><i class="fas fa-mobile-alt"></i> ${devC} / ${k.MaxDevices}</div></div><div class="key-actions-row"><div class="btn-mini btn-view" onclick="viewKey('${kName}')"><i class="fas fa-eye"></i></div><div class="btn-mini btn-edit" onclick="openEditKey('${kName}')"><i class="fas fa-pen"></i></div><div class="btn-mini btn-del" onclick="delKey('${kName}')"><i class="fas fa-trash"></i></div></div></div>`;
             });
+        }
+
+        function viewKey(kName) {
+            const k = dbData.Keys[kName];
+            let devHtml = `<div style="color:var(--muted);font-size:0.8rem;font-style:italic;">No Devices</div>`;
+            if(k.Devices && typeof k.Devices==='object') {
+                devHtml = ""; Object.keys(k.Devices).forEach(d => devHtml+=`<div class="device-item active"><span>${d}</span><i class="fas fa-link" style="color:var(--green)"></i></div>`);
+            }
+            document.getElementById('detailContent').innerHTML = `<div class="detail-group"><div class="detail-lbl">KEY</div><div class="detail-val" style="color:var(--accent);">${kName}</div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"><div class="detail-group"><div class="detail-lbl">TYPE</div><div class="detail-val">${k.Type}</div></div><div class="detail-group"><div class="detail-lbl">VALUE</div><div class="detail-val">${k.Value}</div></div></div>${k.ShowAgain?`<div class="detail-group"><div class="detail-lbl">SHOW AGAIN</div><div class="detail-val">${k.ShowAgain}</div></div>`:''}<div class="detail-group"><div class="detail-lbl">ACTIVATED AT</div><div class="detail-val" style="color:${k.ActivatedAt>0?'var(--green)':'var(--muted)'}">${k.ActivatedAt>0?new Date(k.ActivatedAt).toLocaleString():'Never'}</div></div><div class="detail-group"><div class="detail-lbl">DEVICES</div><div class="device-list">${devHtml}</div></div>`;
+            document.getElementById('detailModal').classList.add('open');
         }
 
         function renderDevices() {
-            const list = document.getElementById('listDevices');
-            const search = document.getElementById('searchDevs').value.toLowerCase();
-            list.innerHTML = "";
-            const allDevs = [...new Set([...Object.keys(dbData.ActivatedUsers), ...Object.keys(dbData.BannedDevices)])];
-            
-            allDevs.forEach(dev => {
-                if(!dev) return;
-                if(search && !dev.toLowerCase().includes(search)) return;
-                const isBanned = dbData.BannedDevices[dev] !== undefined;
-                if (devFilter === 'allowed' && isBanned) return;
-                if (devFilter === 'banned' && !isBanned) return;
-
-                let devData = isBanned ? dbData.BannedDevices[dev] : dbData.ActivatedUsers[dev];
-                let expiry = "N/A", keyUsed = "Unknown";
-                
-                if(typeof devData === 'object') {
-                    expiry = devData.ExpiryReadable || "N/A";
-                    keyUsed = devData.Key || "N/A";
-                } else {
-                     try {
-                        const d = new Date(devData);
-                        if(!isNaN(d)) expiry = d.toLocaleDateString();
-                        else expiry = devData; 
-                    } catch(e) { expiry = devData; }
-                }
-
-                const statusClass = isBanned ? 'banned-card' : 'active-card';
-                const statusText = isBanned ? 'BANNED' : 'AUTHORIZED';
-                const badgeClass = isBanned ? 'banned' : 'active';
-                const icon = isBanned ? 'fa-ban' : 'fa-mobile-alt';
-
-                list.innerHTML += `
-                <div class="item-card ${statusClass}">
-                    <div class="row-top" style="padding:0">
-                        <div class="device-info">
-                            <div class="device-icon"><i class="fas ${icon}"></i></div>
-                            <div style="display:flex; flex-direction:column;">
-                                <span class="mono-text" style="font-size:0.85rem;" onclick="copy('${dev}')">${dev}</span>
-                                <span style="font-size:0.65rem; color:var(--muted); font-weight:600; margin-top:2px;">ID: ${dev.substring(0,8)}...</span>
-                            </div>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox" ${isBanned ? 'checked' : ''} onchange="toggleBan('${dev}')">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    
-                    <div style="display:flex; gap:5px; flex-wrap:wrap; margin-top:8px;">
-                         <div class="info-pill"><i class="fas fa-key"></i> ${keyUsed}</div>
-                         <div class="info-pill"><i class="far fa-clock"></i> ${expiry}</div>
-                    </div>
-
-                    <div class="meta-row" style="margin-top:5px;">
-                        <span class="badge ${badgeClass}">${statusText}</span>
-                        <div style="display:flex; gap:8px;">
-                            <div class="icon-btn" style="width:28px; height:28px; border:none; background:transparent;" onclick="editDevice('${dev}', ${isBanned})">
-                                <i class="fas fa-pen" style="font-size:0.8rem"></i>
-                            </div>
-                            <div class="icon-btn" style="width:28px; height:28px; border:none; background:transparent; color:var(--red);" onclick="delDevice('${dev}')">
-                                <i class="fas fa-trash" style="font-size:0.8rem"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>`;
+            const div = document.getElementById('deviceGlobalList'); div.innerHTML = ""; let found = false;
+            Object.keys(dbData.Keys).forEach(kName => {
+                const k = dbData.Keys[kName];
+                if(k.Devices && typeof k.Devices==='object') Object.keys(k.Devices).forEach(d => { found=true; div.innerHTML+=`<div class="glass-card" style="padding:15px;display:flex;justify-content:space-between;align-items:center;"><div style="overflow:hidden;"><div style="font-family:'JetBrains Mono';font-size:0.85rem;margin-bottom:4px;">${d}</div><div style="font-size:0.7rem;color:var(--muted);"><i class="fas fa-key" style="color:var(--accent)"></i> ${kName}</div></div><div style="display:flex;gap:5px;"><div class="btn-mini btn-edit" onclick="openEditDevice('${kName}','${d}')"><i class="fas fa-pen"></i></div><div class="btn-mini btn-del" onclick="unlinkDevice('${kName}','${d}')"><i class="fas fa-unlink"></i></div></div></div>`; });
             });
-            if(list.innerHTML === "") list.innerHTML = `<div style="text-align:center; padding:40px; color:var(--muted); font-size:0.8rem;">No Devices Found</div>`;
+            if(!found) div.innerHTML = `<div style="text-align:center;color:var(--muted);margin-top:50px;">No active devices.</div>`;
         }
 
-        // ==========================================
-        // 4. ACTIONS
-        // ==========================================
-        function generateKeys() {
-            const qty = document.getElementById('keyQty').value;
-            const prefix = document.getElementById('keyPrefix').value.toUpperCase();
-            for(let i=0; i<qty; i++) {
-                const rnd = Math.random().toString(36).substring(2, 8).toUpperCase();
-                const k = prefix ? `${prefix}-${rnd}` : rnd;
-                dbData.ValidKeys[k] = new Date().toISOString();
+        function openGenModal(isNew) {
+            const modal = document.getElementById('genModal');
+            document.getElementById('keyEditMode').value = !isNew;
+            if(isNew) {
+                document.getElementById('keyModalTitle').innerText = "New Key";
+                document.getElementById('keyModalBtn').innerText = "GENERATE";
+                document.getElementById('genName').value = "Key_VIP";
+                selectType('Duration');
             }
-            closeModal('modalKey');
-            syncDB();
+            modal.classList.add('open');
         }
 
-        function toggleBan(dev) {
-            if (dbData.BannedDevices[dev]) {
-                dbData.ActivatedUsers[dev] = dbData.BannedDevices[dev];
-                delete dbData.BannedDevices[dev];
-            } else {
-                dbData.BannedDevices[dev] = dbData.ActivatedUsers[dev];
-                delete dbData.ActivatedUsers[dev];
+        function openEditKey(kName) {
+            openGenModal(false);
+            const k = dbData.Keys[kName];
+            document.getElementById('keyModalTitle').innerText = "Edit Key";
+            document.getElementById('keyModalBtn').innerText = "UPDATE";
+            document.getElementById('keyOriginalName').value = kName;
+            document.getElementById('genName').value = kName;
+            document.getElementById('genMax').value = k.MaxDevices || 1;
+            document.getElementById('genShowAgain').value = k.ShowAgain || "";
+            selectType(k.Type);
+            if(k.Type === 'Duration') document.getElementById('genValDur').value = k.Value;
+            if(k.Type === 'Fixed') {
+                let p = k.Value.split('-');
+                if(p.length===3) document.getElementById('genValFix').value = `${p[2]}-${p[1]}-${p[0]}`;
             }
-            syncDB();
         }
 
-        function delDevice(dev) {
-            if(confirm("Permanently delete this device and all its data?")) {
-                if(dbData.ActivatedUsers[dev]) delete dbData.ActivatedUsers[dev];
-                if(dbData.BannedDevices[dev]) delete dbData.BannedDevices[dev];
-                syncDB();
+        function saveKey() {
+            const mode = document.getElementById('keyEditMode').value === 'true';
+            const origName = document.getElementById('keyOriginalName').value;
+            const name=document.getElementById('genName').value, type=document.getElementById('genType').value, max=document.getElementById('genMax').value, show=document.getElementById('genShowAgain').value;
+            let val=""; if(type==='Duration')val=document.getElementById('genValDur').value; else if(type==='Fixed'){const d=document.getElementById('genValFix').value; if(d)val=d.split('-').reverse().join('-');} else val=0;
+            if(!name) return alert("Name req"); if(!val && type!=='Lifetime') return alert("Value req");
+            if(mode && origName && origName !== name) delete dbData.Keys[origName];
+            const newKey = { "ActivatedAt": (mode && dbData.Keys[origName]?.ActivatedAt) || 0, "Devices": (mode && dbData.Keys[origName]?.Devices) || "null", "MaxDevices": parseInt(max)||1, "Type": type, "Value": val };
+            if(show) newKey.ShowAgain = show;
+            dbData.Keys[name] = newKey; closeModals(); renderKeys(); sync();
+        }
+
+        function delKey(k) { if(confirm("Delete?")) { delete dbData.Keys[k]; renderKeys(); sync(); } }
+
+        function openAddDeviceModal(isNew) {
+            const sel=document.getElementById('newDevKey'); sel.innerHTML=""; 
+            Object.keys(dbData.Keys).forEach(k=>sel.innerHTML+=`<option value="${k}">${k}</option>`);
+            document.getElementById('devEditMode').value = !isNew;
+            if(isNew) {
+                document.getElementById('devModalTitle').innerText = "Link Device";
+                document.getElementById('devModalBtn').innerText = "LINK";
+                document.getElementById('newDevId').value = "";
             }
+            document.getElementById('addDevModal').classList.add('open');
+        }
+
+        function openEditDevice(kName, dId) {
+            openAddDeviceModal(false);
+            document.getElementById('devModalTitle').innerText = "Edit Device";
+            document.getElementById('devModalBtn').innerText = "UPDATE";
+            document.getElementById('devOriginalId').value = dId;
+            document.getElementById('devOriginalKey').value = kName;
+            document.getElementById('newDevId').value = dId;
+            document.getElementById('newDevKey').value = kName;
+        }
+
+        function saveDevice() {
+            const mode = document.getElementById('devEditMode').value === 'true';
+            const d=document.getElementById('newDevId').value, k=document.getElementById('newDevKey').value;
+            const origD=document.getElementById('devOriginalId').value, origK=document.getElementById('devOriginalKey').value;
+            if(!d||!k)return alert("Empty"); 
+            if(mode) {
+                if(dbData.Keys[origK]?.Devices && dbData.Keys[origK].Devices[origD]) {
+                    delete dbData.Keys[origK].Devices[origD];
+                    if(Object.keys(dbData.Keys[origK].Devices).length===0) dbData.Keys[origK].Devices="null";
+                }
+            }
+            if(!dbData.Keys[k].Devices || dbData.Keys[k].Devices==="null") dbData.Keys[k].Devices={}; 
+            dbData.Keys[k].Devices[d]=true; 
+            closeModals(); renderDevices(); sync();
+        }
+
+        function unlinkDevice(k, d) { if(confirm("Unlink?")) { delete dbData.Keys[k].Devices[d]; if(Object.keys(dbData.Keys[k].Devices).length===0) dbData.Keys[k].Devices="null"; renderDevices(); sync(); } }
+
+        function fillConfig() {
+            const c = dbData.Config;
+            document.getElementById('cfgStatus').value = c.Status || "Safe";
+            document.getElementById('cfgClientTheme').value = c.Theme || "Cyberpunk";
+            document.getElementById('cfgTitle').value = c.UI?.Title || "";
+            document.getElementById('cfgSub').value = c.UI?.Subtitle || "";
+            document.getElementById('cfgBg').value = c.UI?.BackgroundUrl || "";
+            document.getElementById('cfgProf').value = c.UI?.ProfileUrl || "";
+            document.getElementById('cfgBtnAdmin').value = c.UI?.BtnAdmin || "Admin"; // Fill BtnAdmin
+            
+            document.getElementById('cfgVer').value = c.AppVersion || "1.0";
+            document.getElementById('urlUpdate').value = c.UpdateUrl || "";
+            document.getElementById('urlHelp').value = c.HelpUrl || "";
+            
+            document.getElementById('annShow').checked = c.Announcement?.Show || false;
+            document.getElementById('annTitle').value = c.Announcement?.Title || "";
+            document.getElementById('annMsg').value = c.Announcement?.Message || "";
+            document.getElementById('maintShow').checked = c.Maintenance || false;
+            document.getElementById('maintMsg').value = c.MaintenanceMessage || "";
         }
 
         function saveConfig() {
-            dbData.Config.Title = document.getElementById('confTitle').value;
-            dbData.Config.Subtitle = document.getElementById('confSub').value;
-            dbData.Config.AdminUrl = document.getElementById('confUrl').value;
-            dbData.Config.AppVersion = parseInt(document.getElementById('confVer').value) || 1;
-            dbData.Config.UpdateUrl = document.getElementById('confUpdateUrl').value;
-            dbData.Config.KeyDurationHours = parseInt(document.getElementById('confDuration').value) || 24;
+            const c = dbData.Config;
+            c.Status = document.getElementById('cfgStatus').value;
+            c.Theme = document.getElementById('cfgClientTheme').value;
             
-            if(!dbData.Config.Texts) dbData.Config.Texts = {};
-            dbData.Config.Texts.BtnAdmin = document.getElementById('confBtnAdmin').value;
-            dbData.Config.Texts.BtnKey = document.getElementById('confBtnKey').value;
-            dbData.Config.Texts.BtnLogin = document.getElementById('confBtnLogin').value;
-            dbData.Config.Texts.Hint = document.getElementById('confHint').value;
-
-            dbData.Config.Api.BaseUrl = document.getElementById('confApiUrl').value;
-            dbData.Config.Api.Token = document.getElementById('confApiToken').value;
+            if(!c.UI) c.UI = {};
+            c.UI.Title = document.getElementById('cfgTitle').value;
+            c.UI.Subtitle = document.getElementById('cfgSub').value;
+            c.UI.BackgroundUrl = document.getElementById('cfgBg').value;
+            c.UI.ProfileUrl = document.getElementById('cfgProf').value;
+            c.UI.BtnAdmin = document.getElementById('cfgBtnAdmin').value; // Save BtnAdmin
             
-            syncDB();
+            c.AppVersion = document.getElementById('cfgVer').value;
+            c.UpdateUrl = document.getElementById('urlUpdate').value;
+            c.HelpUrl = document.getElementById('urlHelp').value;
+            c.Announcement.Show = document.getElementById('annShow').checked;
+            c.Announcement.Title = document.getElementById('annTitle').value;
+            c.Announcement.Message = document.getElementById('annMsg').value;
+            c.Maintenance = document.getElementById('maintShow').checked;
+            c.MaintenanceMessage = document.getElementById('maintMsg').value;
+            sync();
         }
 
-        function saveKeyEdit() {
-            const oldK = document.getElementById('editOld').value;
-            const newK = document.getElementById('editNew').value;
-            if(newK && newK !== oldK) {
-                dbData.ValidKeys[newK] = dbData.ValidKeys[oldK];
-                delete dbData.ValidKeys[oldK];
-                syncDB();
-            }
-            closeModal('modalEdit');
+        function switchTab(t) {
+            ['tabKeys','tabDevices','tabConfig'].forEach(id => document.getElementById(id).classList.add('hidden'));
+            ['navKey','navDev','navConf'].forEach(id => document.getElementById(id).classList.remove('active'));
+            if(t === 'keys') { document.getElementById('tabKeys').classList.remove('hidden'); document.getElementById('navKey').classList.add('active'); renderKeys(); }
+            else if (t === 'devices') { document.getElementById('tabDevices').classList.remove('hidden'); document.getElementById('navDev').classList.add('active'); renderDevices(); }
+            else { document.getElementById('tabConfig').classList.remove('hidden'); document.getElementById('navConf').classList.add('active'); fillConfig(); }
         }
 
-        function saveDeviceEdit() {
-            const oldDev = document.getElementById('editDeviceOld').value;
-            const newDev = document.getElementById('editDeviceNew').value.trim();
-            const newKey = document.getElementById('editDeviceKey').value.trim();
-            const newExpiry = document.getElementById('editDeviceExpiry').value.trim();
-            const type = document.getElementById('editDeviceType').value;
-
-            let targetObj = (type === 'banned') ? dbData.BannedDevices : dbData.ActivatedUsers;
-            let currentData = targetObj[oldDev];
-
-            if(typeof currentData !== 'object') {
-                currentData = { ExpiryReadable: currentData, Key: "Unknown", ExpiryMs: 0 };
-            }
-
-            currentData.Key = newKey;
-            currentData.ExpiryReadable = newExpiry;
-
-            if(newDev !== oldDev) {
-                targetObj[newDev] = currentData;
-                delete targetObj[oldDev];
-            } else {
-                targetObj[oldDev] = currentData;
-            }
-
-            syncDB();
-            closeModal('modalEditDevice');
+        function selectType(t) {
+            document.getElementById('genType').value=t; document.querySelectorAll('.type-opt').forEach(e=>e.classList.remove('selected'));
+            if(t==='Duration')document.getElementById('typeDur').classList.add('selected'); if(t==='Fixed')document.getElementById('typeFix').classList.add('selected'); if(t==='Lifetime')document.getElementById('typeLife').classList.add('selected');
+            document.getElementById('boxDur').classList.add('hidden'); document.getElementById('boxFix').classList.add('hidden');
+            if(t==='Duration')document.getElementById('boxDur').classList.remove('hidden'); if(t==='Fixed')document.getElementById('boxFix').classList.remove('hidden');
         }
 
-        function delKey(key) { if(confirm("Delete key?")) { delete dbData.ValidKeys[key]; syncDB(); } }
-
-        // ==========================================
-        // 5. UI & ANIMATION
-        // ==========================================
-        function showToast(msg) {
-            const t = document.getElementById('toast');
-            t.querySelector('span').innerText = msg;
-            t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 2000);
-        }
-        function copy(txt) { navigator.clipboard.writeText(txt).then(() => showToast("Copied")); }
-        function openModal(id) { document.getElementById(id).classList.add('open'); }
-        function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-        function editKey(key) { document.getElementById('editOld').value=key; document.getElementById('editNew').value=key; openModal('modalEdit'); }
-        
-        function editDevice(dev, isBanned) {
-            document.getElementById('editDeviceOld').value = dev;
-            document.getElementById('editDeviceNew').value = dev;
-            document.getElementById('editDeviceType').value = isBanned ? 'banned' : 'allowed';
-
-            let data = isBanned ? dbData.BannedDevices[dev] : dbData.ActivatedUsers[dev];
-            if(typeof data === 'object') {
-                document.getElementById('editDeviceKey').value = data.Key || "";
-                document.getElementById('editDeviceExpiry').value = data.ExpiryReadable || "";
-            } else {
-                document.getElementById('editDeviceKey').value = "";
-                document.getElementById('editDeviceExpiry').value = data; 
-            }
-            openModal('modalEditDevice');
+        function openPanelThemeModal() { document.getElementById('panelThemeModal').classList.add('open'); }
+        function setPanelTheme(t, close=true) {
+            document.documentElement.setAttribute('data-theme', t);
+            if(close) closeModals();
+            if(t === 'Matrix') initMatrix();
+            else if(t === 'Blood') initRain();
+            else if(t === 'Ocean') initBubbles();
+            else if(t === 'Gold') initSparkles();
+            else initParticles(); // Default
         }
 
-        function setDevFilter(f, el) {
-            devFilter = f;
-            document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-            el.classList.add('active');
-            renderDevices();
-        }
-        function switchTab(tab) {
-            ['Keys', 'Devices', 'Config'].forEach(t => document.getElementById(`tab${t}`).classList.add('hidden'));
-            ['Key', 'Dev', 'Conf'].forEach(n => document.getElementById(`nav${n}`).classList.remove('active'));
-            if(tab === 'keys') { document.getElementById('tabKeys').classList.remove('hidden'); document.getElementById('navKey').classList.add('active'); }
-            else if(tab === 'devices') { document.getElementById('tabDevices').classList.remove('hidden'); document.getElementById('navDev').classList.add('active'); }
-            else { document.getElementById('tabConfig').classList.remove('hidden'); document.getElementById('navConf').classList.add('active'); }
-        }
+        function closeModals() { document.querySelectorAll('.modal-wrap').forEach(m=>m.classList.remove('open')); }
+        function hardReset() { localStorage.removeItem("dpAdminUrl"); location.reload(); }
+        function showToast(m) { const t=document.getElementById('toast'); t.querySelector('span').innerText=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 2000); }
 
-        // --- THEME SELECTOR ---
-        function openThemeModal() {
-            const grid = document.getElementById('themeList');
-            grid.innerHTML = "";
-            themes.forEach(t => {
-                grid.innerHTML += `<div class="theme-btn" onclick="selectTheme('${t}')">${t.toUpperCase()}</div>`;
-            });
-            openModal('modalThemes');
-        }
+        // Start Animation Loop
+        if(animationId) cancelAnimationFrame(animationId);
+        setPanelTheme('Cyberpunk', false); // Default
+        animate();
 
-        function selectTheme(theme) {
-            curTheme = theme;
-            localStorage.setItem("gateway_theme", theme);
-            document.documentElement.setAttribute('data-theme', theme);
-            setAnimation(theme);
-            closeModal('modalThemes');
-            showToast(`Theme Set: ${theme.toUpperCase()}`);
-        }
-
-        function setAnimation(theme) {
-            if(animationId) cancelAnimationFrame(animationId);
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            if (theme === 'matrix') initMatrix();
-            else if (theme === 'demon') initDemonParticles();
-            else if (theme === 'luffy') initLuffyParticles();
-            else initParticles(theme);
-        }
-        function initParticles(theme) {
-            particles = [];
-            const color = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
-            for(let i=0; i<50; i++) particles.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, v: Math.random()*0.4+0.1, s: Math.random()*2 });
-            function loop() {
-                ctx.clearRect(0,0,canvas.width,canvas.height);
-                ctx.fillStyle = color; ctx.globalAlpha = 0.3;
-                particles.forEach(p => { p.y -= p.v; if(p.y < 0) p.y = canvas.height; ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, Math.PI*2); ctx.fill(); });
-                animationId = requestAnimationFrame(loop);
-            }
-            loop();
-        }
-        function initMatrix() {
-            const fontSize = 14; const columns = canvas.width / fontSize; const drops = Array(Math.floor(columns)).fill(1);
-            ctx.font = fontSize + "px monospace"; let frame = 0;
-            function loop() {
-                if (frame % 3 === 0) {
-                    ctx.fillStyle = "rgba(0, 0, 0, 0.1)"; ctx.fillRect(0, 0, canvas.width, canvas.height); ctx.fillStyle = "#0F0";
-                    drops.forEach((y, i) => { const text = String.fromCharCode(0x30A0 + Math.random() * 96); ctx.fillText(text, i * fontSize, y * fontSize); if (y * fontSize > canvas.height && Math.random() > 0.98) drops[i] = 0; drops[i]++; });
-                }
-                frame++; animationId = requestAnimationFrame(loop);
-            }
-            loop();
-        }
-        function initLuffyParticles() {
-            particles = []; for(let i=0; i<40; i++) particles.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, v: Math.random()*0.8+0.2, s: Math.random()*4+1 });
-            function loop() { ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle = "#ffffff"; ctx.globalAlpha = 0.2; particles.forEach(p => { p.y -= p.v; if(p.y < 0) p.y = canvas.height; ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, Math.PI*2); ctx.fill(); }); animationId = requestAnimationFrame(loop); } loop();
-        }
-        function initDemonParticles() {
-            particles = []; for(let i=0; i<60; i++) particles.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, vx: Math.random()*2-1, vy: Math.random()*2-1 });
-            function loop() { ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle = "#00ffcc"; ctx.globalAlpha = 0.4; particles.forEach(p => { p.x += p.vx; p.y += p.vy; if(p.x<0||p.x>canvas.width) p.vx*=-1; if(p.y<0||p.y>canvas.height) p.vy*=-1; ctx.beginPath(); ctx.arc(p.x, p.y, 1.5, 0, Math.PI*2); ctx.fill(); }); animationId = requestAnimationFrame(loop); } loop();
-        }
-
-        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
-        appInit();
     </script>
 </body>
 </html>
