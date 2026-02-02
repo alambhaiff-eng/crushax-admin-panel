@@ -1,3 +1,62 @@
+/* ===============================
+   FIX DELETE ALL MODAL (FINAL)
+   SAME AS ORIGINAL UI
+   =============================== */
+
+.modal-overlay{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: .3s;
+}
+
+.modal-overlay.open{
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content{
+  background: var(--card);
+  width: 90%;
+  max-width: 340px;
+  padding: 30px;
+  border-radius: 24px;
+  border: 1px solid var(--border);
+  backdrop-filter: var(--glass);
+  box-shadow: 0 0 50px rgba(0,0,0,.8);
+  transform: scale(.9);
+  transition: .3s;
+}
+
+.modal-overlay.open .modal-content{
+  transform: scale(1);
+}
+
+#modalDeleteAll h3{
+  font-weight: 800;
+  letter-spacing: .5px;
+}
+
+#modalDeleteAll .input-std{
+  width: 100%;
+  background: rgba(0,0,0,.35);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 14px;
+  height: 46px;
+}
+
+#modalDeleteAll .btn-block{
+  height: 46px;
+  border-radius: 14px;
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
