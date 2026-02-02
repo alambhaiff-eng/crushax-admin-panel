@@ -3,24 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CRUSH AX MODS – Ultimate Admin</title>
+<title>CRUSH AX MODS – Admin Panel</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
 :root{
---bg:#050508;--card:rgba(20,20,25,.6);
+--bg:#050508;--card:rgba(20,20,25,.6);--nav:rgba(25,25,35,.8);
 --accent:#00e5ff;--text:#fff;--muted:#94a3b8;
 --border:rgba(255,255,255,.08);
---red:#ff0055;--green:#00ff9d
+--green:#00ff9d;--red:#ff0055;
+--glass:blur(24px) saturate(180%);
 }
-body{margin:0;font-family:Inter;background:var(--bg);color:var(--text)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+margin:0;font-family:Inter,sans-serif;
+background:var(--bg);color:var(--text);
+padding-bottom:110px
+}
 header{
-position:sticky;top:0;z-index:99;
+position:sticky;top:0;z-index:50;
 display:flex;justify-content:space-between;align-items:center;
-padding:15px 20px;background:rgba(0,0,0,.35);
-backdrop-filter:blur(20px);border-bottom:1px solid var(--border)
+padding:15px 20px;
+background:rgba(0,0,0,.3);
+backdrop-filter:var(--glass);
+border-bottom:1px solid var(--border)
 }
 .brand{font-weight:800;display:flex;gap:10px;align-items:center}
 .icon-btn{
@@ -32,19 +40,24 @@ color:var(--muted);cursor:pointer
 }
 .icon-btn.danger{border-color:var(--red);color:var(--red)}
 .container{max-width:600px;margin:auto;padding:20px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;margin-bottom:15px}
-.btn{width:100%;padding:14px;border-radius:14px;border:none;font-weight:800;cursor:pointer}
-.btn-danger{background:rgba(255,0,85,.15);color:var(--red);border:1px solid var(--red)}
+.card{
+background:var(--card);border:1px solid var(--border);
+border-radius:20px;padding:18px;margin-bottom:12px
+}
+.mono{font-family:"JetBrains Mono",monospace}
+.btn{
+padding:12px;border-radius:14px;border:none;
+font-weight:800;cursor:pointer
+}
 .btn-main{background:var(--accent);color:#000}
-input{
-width:100%;padding:12px;border-radius:12px;
-border:1px solid var(--border);
-background:#000;color:#fff;margin-top:10px
+.btn-danger{
+background:rgba(255,0,85,.15);
+border:1px solid var(--red);color:var(--red)
 }
 .modal{
 position:fixed;inset:0;background:rgba(0,0,0,.85);
 display:flex;align-items:center;justify-content:center;
-opacity:0;pointer-events:none;transition:.3s
+opacity:0;pointer-events:none;transition:.3s;z-index:200
 }
 .modal.open{opacity:1;pointer-events:auto}
 .modal-box{
@@ -52,12 +65,17 @@ background:#111;border-radius:20px;
 padding:25px;width:90%;max-width:320px;
 border:1px solid var(--border)
 }
+input{
+width:100%;padding:12px;border-radius:12px;
+border:1px solid var(--border);
+background:#000;color:#fff;margin-top:10px
+}
 .toast{
 position:fixed;top:20px;left:50%;
 transform:translateX(-50%) translateY(-120px);
 background:#111;border:1px solid var(--accent);
 padding:12px 24px;border-radius:50px;
-transition:.4s;z-index:999
+transition:.4s;z-index:300
 }
 .toast.show{transform:translateX(-50%) translateY(0)}
 </style>
@@ -67,45 +85,62 @@ transition:.4s;z-index:999
 
 <header>
   <div class="brand"><i class="fas fa-cube"></i> CRUSH AX MODS</div>
+
+  <!-- 🔥 SAME PLACE AS YOUR CIRCLE -->
   <div style="display:flex;gap:10px">
-    <div class="icon-btn" onclick="openPinModal()"><i class="fas fa-bomb"></i></div>
+    <div class="icon-btn danger" title="Delete All" onclick="openDeleteModal()">
+      <i class="fas fa-bomb"></i>
+    </div>
+    <div class="icon-btn" onclick="appInit(true)">
+      <i class="fas fa-sync-alt"></i>
+    </div>
   </div>
 </header>
 
 <div class="container">
 
+  <!-- DASHBOARD -->
   <div class="card">
-    <h3>🔐 Change Admin PIN</h3>
-    <input id="newPin" type="password" placeholder="New PIN">
-    <button class="btn btn-main" onclick="changePin()">UPDATE PIN</button>
+    <b>Dashboard</b><br>
+    <span style="color:var(--muted);font-size:.8rem">
+      Keys • Devices • Banned
+    </span>
   </div>
 
+  <!-- KEYS -->
   <div class="card">
-    <h3>🔥 Danger Zone</h3>
-    <p style="font-size:.85rem;color:var(--muted)">
-      Auto-backup → PIN verify → Full wipe
-    </p>
-    <button class="btn btn-danger" onclick="openPinModal()">CLEAR ALL DATA</button>
+    <b>🔑 Valid Keys</b>
+    <div id="keysList" class="mono" style="margin-top:10px;font-size:.85rem"></div>
+  </div>
+
+  <!-- DEVICES -->
+  <div class="card">
+    <b>📱 Devices</b>
+    <div id="deviceList" class="mono" style="margin-top:10px;font-size:.85rem"></div>
   </div>
 
 </div>
 
-<!-- PIN MODAL -->
-<div class="modal" id="pinModal">
+<!-- DELETE MODAL -->
+<div class="modal" id="deleteModal">
   <div class="modal-box">
-    <h3>Admin Verification</h3>
-    <input type="password" id="pinInput" placeholder="Enter Admin PIN">
-    <button class="btn btn-danger" style="margin-top:15px" onclick="verifyPin()">CONFIRM</button>
+    <h3 style="color:var(--red)">⚠️ Delete All</h3>
+    <p style="font-size:.8rem;color:var(--muted)">
+      Enter Admin PIN to delete all keys & devices
+    </p>
+    <input type="password" id="deletePin" placeholder="Enter PIN">
+    <button class="btn btn-danger" style="margin-top:15px;width:100%" onclick="confirmDelete()">
+      CONFIRM DELETE
+    </button>
   </div>
 </div>
 
 <div class="toast" id="toast">Done</div>
 
 <script>
-const DEFAULT_PIN="7860";
-let adminPin=localStorage.getItem("ADMIN_PIN")||DEFAULT_PIN;
+const ADMIN_PIN="7860";
 let dbUrl=localStorage.getItem("gateway_db_url")||"";
-let dbData={ValidKeys:{},ActivatedUsers:{},BannedDevices:{},Config:{},DeleteLogs:{}};
+let dbData={ValidKeys:{},ActivatedUsers:{},BannedDevices:{}};
 
 function toast(msg){
  const t=document.getElementById("toast");
@@ -115,43 +150,52 @@ function toast(msg){
 }
 function sanitize(u){return u.endsWith("/")?u+".json":u+"/.json"}
 
-function openPinModal(){
- document.getElementById("pinModal").classList.add("open")
-}
-
-function verifyPin(){
- const p=document.getElementById("pinInput").value;
- if(p!==adminPin){toast("❌ Wrong PIN");return}
- document.getElementById("pinModal").classList.remove("open")
- wipeAll()
-}
-
-async function wipeAll(){
- if(!confirm("FINAL WARNING!\nEverything will be deleted."))return
-
- const backupKey="_BACKUP_"+new Date().toISOString()
- dbData.DeleteLogs[Date.now()]="FULL WIPE"
-
- const fullData=JSON.parse(JSON.stringify(dbData))
- await fetch(sanitize(dbUrl.replace(".json","")+"/"+backupKey),{
-  method:"PUT",body:JSON.stringify(fullData)
+function appInit(){
+ if(!dbUrl)return;
+ fetch(sanitize(dbUrl))
+ .then(r=>r.json())
+ .then(d=>{
+   if(d) dbData=d;
+   render();
  })
+}
+function render(){
+ const k=document.getElementById("keysList");
+ const d=document.getElementById("deviceList");
 
- dbData.ValidKeys={}
- dbData.ActivatedUsers={}
- dbData.BannedDevices={}
-
- await fetch(sanitize(dbUrl),{method:"PUT",body:JSON.stringify(dbData)})
- toast("🔥 SYSTEM CLEANED")
+ k.innerHTML=Object.keys(dbData.ValidKeys||{}).join("<br>")||"No Keys";
+ d.innerHTML=[
+   ...Object.keys(dbData.ActivatedUsers||{}),
+   ...Object.keys(dbData.BannedDevices||{})
+ ].join("<br>")||"No Devices";
 }
 
-function changePin(){
- const p=document.getElementById("newPin").value;
- if(p.length<4){toast("PIN too short");return}
- adminPin=p;
- localStorage.setItem("ADMIN_PIN",p);
- toast("🔐 PIN UPDATED")
+function openDeleteModal(){
+ document.getElementById("deletePin").value="";
+ document.getElementById("deleteModal").classList.add("open");
 }
+
+function confirmDelete(){
+ const p=document.getElementById("deletePin").value;
+ if(p!==ADMIN_PIN){toast("❌ Wrong PIN");return}
+ if(!confirm("FINAL WARNING!\nALL KEYS & DEVICES WILL BE DELETED"))return;
+
+ dbData.ValidKeys={};
+ dbData.ActivatedUsers={};
+ dbData.BannedDevices={};
+
+ fetch(sanitize(dbUrl),{
+  method:"PUT",
+  body:JSON.stringify(dbData)
+ }).then(()=>{
+   toast("🔥 ALL DATA DELETED");
+   document.getElementById("deleteModal").classList.remove("open");
+   render();
+ })
+}
+
+appInit();
 </script>
+
 </body>
 </html>
