@@ -1,125 +1,219 @@
-<!-- ================= ORIGINAL FILE ================= -->
-<!-- ONLY ADDITIONS ARE MARKED WITH 🔥 COMMENTS -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CRUSH AX MODS – Admin Panel</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>CRUSH AX MODS – Admin Panel</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- ⚠️ ALL YOUR ORIGINAL CSS IS UNTOUCHED -->
-    <!-- (same as you sent first time) -->
+<style>
+:root{
+--bg:#050508;--card:rgba(20,20,25,.6);--nav:rgba(25,25,35,.8);
+--accent:#00e5ff;--text:#fff;--muted:#94a3b8;
+--border:rgba(255,255,255,.08);
+--green:#00ff9d;--red:#ff0055;
+--glass:blur(24px) saturate(180%);
+--shadow:0 8px 32px rgba(0,0,0,.3)
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+margin:0;font-family:Inter,sans-serif;
+background:var(--bg);color:var(--text);
+min-height:100vh;padding-bottom:110px
+}
+.hidden{display:none!important}
+
+header{
+position:sticky;top:0;z-index:50;
+display:flex;justify-content:space-between;align-items:center;
+padding:15px 20px;
+background:rgba(0,0,0,.25);
+backdrop-filter:var(--glass);
+border-bottom:1px solid var(--border)
+}
+.brand{font-weight:800;display:flex;align-items:center;gap:10px}
+.icon-btn{
+width:38px;height:38px;border-radius:12px;
+display:flex;align-items:center;justify-content:center;
+background:rgba(255,255,255,.05);
+border:1px solid var(--border);
+color:var(--muted)
+}
+
+.container{max-width:600px;margin:auto;padding:20px}
+
+.item-card{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:24px;
+padding:20px;
+margin-bottom:12px;
+backdrop-filter:var(--glass)
+}
+.active-card:before{
+content:"";position:absolute;left:0;top:0;width:4px;height:100%;
+background:var(--green)
+}
+
+.modal-overlay{
+position:fixed;inset:0;
+background:rgba(0,0,0,.85);
+display:flex;align-items:center;justify-content:center;
+z-index:200;
+opacity:0;pointer-events:none;
+transition:.3s
+}
+.modal-overlay.open{opacity:1;pointer-events:auto}
+.modal-content{
+background:#111;
+border-radius:24px;
+border:1px solid var(--border);
+padding:30px;
+width:90%;max-width:340px
+}
+.input-std{
+width:100%;
+padding:12px 15px;
+border-radius:12px;
+background:rgba(0,0,0,.3);
+border:1px solid var(--border);
+color:#fff
+}
+.btn-block{
+width:100%;
+padding:15px;
+border-radius:16px;
+border:none;
+font-weight:800;
+cursor:pointer
+}
+.toast{
+position:fixed;top:20px;left:50%;
+transform:translateX(-50%) translateY(-120px);
+background:var(--nav);
+border:1px solid var(--accent);
+padding:12px 25px;
+border-radius:50px;
+transition:.4s;
+z-index:300
+}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
 </head>
 
 <body>
 
-<canvas id="bgCanvas"></canvas>
-
 <header>
-    <div class="brand">
-        <i class="fas fa-cube"></i>
-        <span id="brandName">...</span>
-    </div>
+<div class="brand"><i class="fas fa-cube"></i> CRUSH AX MODS</div>
 
-    <div style="display:flex; gap:10px">
+<div style="display:flex;gap:10px">
+<!-- 💣 BOMB BUTTON -->
+<div class="icon-btn" onclick="openDeleteAllModal()" style="color:#ff0055;border-color:#ff0055">
+<i class="fas fa-bomb"></i>
+</div>
 
-        <!-- 🔥 NEW BOMB BUTTON (SAME CIRCLE PLACE) -->
-        <div class="icon-btn"
-             title="Delete All Keys"
-             onclick="openDeleteAllModal()"
-             style="border-color:var(--red); color:var(--red)">
-            <i class="fas fa-bomb"></i>
-        </div>
-
-        <!-- ORIGINAL BUTTONS -->
-        <div class="icon-btn" onclick="openThemeModal()">
-            <i class="fas fa-palette"></i>
-        </div>
-
-        <div class="icon-btn" onclick="appInit(true)">
-            <i class="fas fa-sync-alt"></i>
-        </div>
-
-    </div>
+<div class="icon-btn" onclick="location.reload()">
+<i class="fas fa-sync-alt"></i>
+</div>
+</div>
 </header>
 
-<!-- ================= ORIGINAL DASHBOARD ================= -->
-<!-- NOTHING REMOVED / NOTHING SIMPLIFIED -->
-
 <div class="container">
-    <!-- ALL ORIGINAL VIEWS, TABS, KEYS, DEVICES, CONFIG -->
+
+<div class="item-card">
+<h3>Dashboard</h3>
+<p style="color:var(--muted)">Keys • Devices • Banned</p>
 </div>
 
-<!-- ================= 🔥 DELETE ALL MODAL ================= -->
+<div id="keysBox" class="item-card active-card">
+<h4>Valid Keys</h4>
+<div id="keysList"></div>
+</div>
+
+<div id="devicesBox" class="item-card">
+<h4>Devices</h4>
+<div id="devicesList"></div>
+</div>
+
+</div>
+
+<!-- 🔐 DELETE ALL MODAL -->
 <div id="modalDeleteAll" class="modal-overlay">
-    <div class="modal-content">
-        <h3 style="margin-top:0;color:var(--red)">⚠️ Delete All Data</h3>
+<div class="modal-content">
 
-        <p style="font-size:0.75rem;color:var(--muted)">
-            Enter Admin PIN to delete all keys & devices
-        </p>
+<h3 style="color:#ff0055">
+<i class="fas fa-triangle-exclamation"></i> Delete All Data
+</h3>
 
-        <input type="password"
-               id="deleteAllPin"
-               class="input-std"
-               placeholder="Enter PIN"
-               style="padding-left:15px">
+<p style="color:var(--muted);font-size:.85rem">
+Enter Admin PIN to delete ALL keys & devices
+</p>
 
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px">
-            <button class="btn-block"
-                    style="background:var(--red);color:#fff"
-                    onclick="confirmDeleteAll()">
-                DELETE ALL
-            </button>
+<input type="password" id="deleteAllPin" class="input-std" placeholder="Enter PIN">
 
-            <button class="btn-block"
-                    style="background:transparent;border:1px solid var(--border);color:var(--muted)"
-                    onclick="closeModal('modalDeleteAll')">
-                CANCEL
-            </button>
-        </div>
-    </div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px">
+<button class="btn-block" style="background:#ff0055;color:#fff" onclick="confirmDeleteAll()">
+DELETE
+</button>
+<button class="btn-block" style="background:#222;color:#aaa" onclick="closeModal()">
+CANCEL
+</button>
 </div>
 
-<!-- ================= ORIGINAL TOAST / NAV / MODALS ================= -->
+</div>
+</div>
+
+<div id="toast" class="toast">Done</div>
 
 <script>
-/* ================= 🔥 DELETE ALL LOGIC ================= */
+/* ===== BASIC MOCK DATA (replace with Firebase if needed) ===== */
+let dbData={
+ValidKeys:{KEY1:true,KEY2:true},
+ActivatedUsers:{DEV1:true},
+BannedDevices:{}
+};
 
-const ADMIN_PIN = "7860";
+const ADMIN_PIN="7860";
 
+/* ===== UI RENDER ===== */
+function render(){
+keysList.innerHTML=Object.keys(dbData.ValidKeys).join("<br>");
+devicesList.innerHTML=
+Object.keys(dbData.ActivatedUsers).join("<br>")+
+Object.keys(dbData.BannedDevices).join("<br>");
+}
+render();
+
+/* ===== DELETE ALL LOGIC ===== */
 function openDeleteAllModal(){
-    document.getElementById("deleteAllPin").value="";
-    openModal("modalDeleteAll");
+document.getElementById("deleteAllPin").value="";
+document.getElementById("modalDeleteAll").classList.add("open");
 }
-
+function closeModal(){
+document.getElementById("modalDeleteAll").classList.remove("open");
+}
 function confirmDeleteAll(){
-    const pin = document.getElementById("deleteAllPin").value;
+const pin=document.getElementById("deleteAllPin").value;
+if(pin!==ADMIN_PIN){toast("Wrong PIN");return;}
+if(!confirm("FINAL CONFIRM?\nDELETE EVERYTHING"))return;
 
-    if(pin !== ADMIN_PIN){
-        showToast("❌ Wrong PIN");
-        return;
-    }
-
-    if(!confirm("FINAL WARNING!\n\nAll KEYS & DEVICES will be deleted.")){
-        return;
-    }
-
-    // 🔥 CLEAR DATA
-    dbData.ValidKeys = {};
-    dbData.ActivatedUsers = {};
-    dbData.BannedDevices = {};
-
-    syncDB();
-    closeModal("modalDeleteAll");
-    showToast("🔥 ALL DATA DELETED");
+dbData.ValidKeys={};
+dbData.ActivatedUsers={};
+dbData.BannedDevices={};
+render();
+closeModal();
+toast("All data deleted");
 }
 
-/* ================= ORIGINAL JS CONTINUES ================= */
+/* ===== TOAST ===== */
+function toast(t){
+const el=document.getElementById("toast");
+el.innerText=t;
+el.classList.add("show");
+setTimeout(()=>el.classList.remove("show"),2000);
+}
 </script>
 
 </body>
