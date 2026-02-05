@@ -358,7 +358,7 @@
         // ==========================================
         // 1. CONFIG & INIT
         // ==========================================
-        let dbUrl = "https://crushaxpanel-13372-default-rtdb.firebaseio.com";
+        let dbUrl = localStorage.getItem("gateway_db_url") || "";
         let dbData = null;
         let devFilter = 'all';
         let themes = ['cyberpunk', 'gold', 'ice', 'nature', 'itachi', 'gojo', 'luffy', 'matrix', 'demon', 'blood'];
